@@ -1,13 +1,725 @@
 {
   "products": [
     {
-      "id": 1, "name": "Teclado Mecánico Pro", "price": 189.00, "stock": 5, "category": "Hardware"
+      "id": 1,
+      "name": "Teclado Mec\u00e1nico Pro",
+      "price": 189.0,
+      "stock": 5,
+      "category": "Hardware"
     },
     {
-      "id": 2, "name": "Monitor Curvo 49\"", "price": 1200.00, "stock": 2, "category": "Visualización"
+      "id": 2,
+      "name": "Monitor Curvo 49\"",
+      "price": 1200.0,
+      "stock": 2,
+      "category": "Visualizaci\u00f3n"
     },
     {
-      "id": 3, "name": "Silla Ergo-Tech", "price": 450.00, "stock": 10, "category": "Mobiliario"
+      "id": 3,
+      "name": "Silla Ergo-Tech",
+      "price": 450.0,
+      "stock": 10,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 4,
+      "name": "Producto Ficticio 4",
+      "price": 65.0,
+      "stock": 4,
+      "category": "Redes"
+    },
+    {
+      "id": 5,
+      "name": "Producto Ficticio 5",
+      "price": 68.75,
+      "stock": 11,
+      "category": "Audio"
+    },
+    {
+      "id": 6,
+      "name": "Producto Ficticio 6",
+      "price": 72.5,
+      "stock": 18,
+      "category": "Hardware"
+    },
+    {
+      "id": 7,
+      "name": "Producto Ficticio 7",
+      "price": 76.25,
+      "stock": 25,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 8,
+      "name": "Producto Ficticio 8",
+      "price": 80.0,
+      "stock": 7,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 9,
+      "name": "Producto Ficticio 9",
+      "price": 83.75,
+      "stock": 14,
+      "category": "Accesorios"
+    },
+    {
+      "id": 10,
+      "name": "Producto Ficticio 10",
+      "price": 87.5,
+      "stock": 21,
+      "category": "Redes"
+    },
+    {
+      "id": 11,
+      "name": "Producto Ficticio 11",
+      "price": 91.25,
+      "stock": 3,
+      "category": "Audio"
+    },
+    {
+      "id": 12,
+      "name": "Producto Ficticio 12",
+      "price": 95.0,
+      "stock": 10,
+      "category": "Hardware"
+    },
+    {
+      "id": 13,
+      "name": "Producto Ficticio 13",
+      "price": 98.75,
+      "stock": 17,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 14,
+      "name": "Producto Ficticio 14",
+      "price": 102.5,
+      "stock": 24,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 15,
+      "name": "Producto Ficticio 15",
+      "price": 106.25,
+      "stock": 6,
+      "category": "Accesorios"
+    },
+    {
+      "id": 16,
+      "name": "Producto Ficticio 16",
+      "price": 110.0,
+      "stock": 13,
+      "category": "Redes"
+    },
+    {
+      "id": 17,
+      "name": "Producto Ficticio 17",
+      "price": 113.75,
+      "stock": 20,
+      "category": "Audio"
+    },
+    {
+      "id": 18,
+      "name": "Producto Ficticio 18",
+      "price": 117.5,
+      "stock": 2,
+      "category": "Hardware"
+    },
+    {
+      "id": 19,
+      "name": "Producto Ficticio 19",
+      "price": 121.25,
+      "stock": 9,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 20,
+      "name": "Producto Ficticio 20",
+      "price": 125.0,
+      "stock": 16,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 21,
+      "name": "Producto Ficticio 21",
+      "price": 128.75,
+      "stock": 23,
+      "category": "Accesorios"
+    },
+    {
+      "id": 22,
+      "name": "Producto Ficticio 22",
+      "price": 132.5,
+      "stock": 5,
+      "category": "Redes"
+    },
+    {
+      "id": 23,
+      "name": "Producto Ficticio 23",
+      "price": 136.25,
+      "stock": 12,
+      "category": "Audio"
+    },
+    {
+      "id": 24,
+      "name": "Producto Ficticio 24",
+      "price": 140.0,
+      "stock": 19,
+      "category": "Hardware"
+    },
+    {
+      "id": 25,
+      "name": "Producto Ficticio 25",
+      "price": 143.75,
+      "stock": 1,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 26,
+      "name": "Producto Ficticio 26",
+      "price": 147.5,
+      "stock": 8,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 27,
+      "name": "Producto Ficticio 27",
+      "price": 151.25,
+      "stock": 15,
+      "category": "Accesorios"
+    },
+    {
+      "id": 28,
+      "name": "Producto Ficticio 28",
+      "price": 155.0,
+      "stock": 22,
+      "category": "Redes"
+    },
+    {
+      "id": 29,
+      "name": "Producto Ficticio 29",
+      "price": 158.75,
+      "stock": 4,
+      "category": "Audio"
+    },
+    {
+      "id": 30,
+      "name": "Producto Ficticio 30",
+      "price": 162.5,
+      "stock": 11,
+      "category": "Hardware"
+    },
+    {
+      "id": 31,
+      "name": "Producto Ficticio 31",
+      "price": 166.25,
+      "stock": 18,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 32,
+      "name": "Producto Ficticio 32",
+      "price": 170.0,
+      "stock": 25,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 33,
+      "name": "Producto Ficticio 33",
+      "price": 173.75,
+      "stock": 7,
+      "category": "Accesorios"
+    },
+    {
+      "id": 34,
+      "name": "Producto Ficticio 34",
+      "price": 177.5,
+      "stock": 14,
+      "category": "Redes"
+    },
+    {
+      "id": 35,
+      "name": "Producto Ficticio 35",
+      "price": 181.25,
+      "stock": 21,
+      "category": "Audio"
+    },
+    {
+      "id": 36,
+      "name": "Producto Ficticio 36",
+      "price": 185.0,
+      "stock": 3,
+      "category": "Hardware"
+    },
+    {
+      "id": 37,
+      "name": "Producto Ficticio 37",
+      "price": 188.75,
+      "stock": 10,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 38,
+      "name": "Producto Ficticio 38",
+      "price": 192.5,
+      "stock": 17,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 39,
+      "name": "Producto Ficticio 39",
+      "price": 196.25,
+      "stock": 24,
+      "category": "Accesorios"
+    },
+    {
+      "id": 40,
+      "name": "Producto Ficticio 40",
+      "price": 200.0,
+      "stock": 6,
+      "category": "Redes"
+    },
+    {
+      "id": 41,
+      "name": "Producto Ficticio 41",
+      "price": 203.75,
+      "stock": 13,
+      "category": "Audio"
+    },
+    {
+      "id": 42,
+      "name": "Producto Ficticio 42",
+      "price": 207.5,
+      "stock": 20,
+      "category": "Hardware"
+    },
+    {
+      "id": 43,
+      "name": "Producto Ficticio 43",
+      "price": 211.25,
+      "stock": 2,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 44,
+      "name": "Producto Ficticio 44",
+      "price": 215.0,
+      "stock": 9,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 45,
+      "name": "Producto Ficticio 45",
+      "price": 218.75,
+      "stock": 16,
+      "category": "Accesorios"
+    },
+    {
+      "id": 46,
+      "name": "Producto Ficticio 46",
+      "price": 222.5,
+      "stock": 23,
+      "category": "Redes"
+    },
+    {
+      "id": 47,
+      "name": "Producto Ficticio 47",
+      "price": 226.25,
+      "stock": 5,
+      "category": "Audio"
+    },
+    {
+      "id": 48,
+      "name": "Producto Ficticio 48",
+      "price": 230.0,
+      "stock": 12,
+      "category": "Hardware"
+    },
+    {
+      "id": 49,
+      "name": "Producto Ficticio 49",
+      "price": 233.75,
+      "stock": 19,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 50,
+      "name": "Producto Ficticio 50",
+      "price": 237.5,
+      "stock": 1,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 51,
+      "name": "Producto Ficticio 51",
+      "price": 241.25,
+      "stock": 8,
+      "category": "Accesorios"
+    },
+    {
+      "id": 52,
+      "name": "Producto Ficticio 52",
+      "price": 245.0,
+      "stock": 15,
+      "category": "Redes"
+    },
+    {
+      "id": 53,
+      "name": "Producto Ficticio 53",
+      "price": 248.75,
+      "stock": 22,
+      "category": "Audio"
+    },
+    {
+      "id": 54,
+      "name": "Producto Ficticio 54",
+      "price": 252.5,
+      "stock": 4,
+      "category": "Hardware"
+    },
+    {
+      "id": 55,
+      "name": "Producto Ficticio 55",
+      "price": 256.25,
+      "stock": 11,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 56,
+      "name": "Producto Ficticio 56",
+      "price": 260.0,
+      "stock": 18,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 57,
+      "name": "Producto Ficticio 57",
+      "price": 263.75,
+      "stock": 25,
+      "category": "Accesorios"
+    },
+    {
+      "id": 58,
+      "name": "Producto Ficticio 58",
+      "price": 267.5,
+      "stock": 7,
+      "category": "Redes"
+    },
+    {
+      "id": 59,
+      "name": "Producto Ficticio 59",
+      "price": 271.25,
+      "stock": 14,
+      "category": "Audio"
+    },
+    {
+      "id": 60,
+      "name": "Producto Ficticio 60",
+      "price": 275.0,
+      "stock": 21,
+      "category": "Hardware"
+    },
+    {
+      "id": 61,
+      "name": "Producto Ficticio 61",
+      "price": 278.75,
+      "stock": 3,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 62,
+      "name": "Producto Ficticio 62",
+      "price": 282.5,
+      "stock": 10,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 63,
+      "name": "Producto Ficticio 63",
+      "price": 286.25,
+      "stock": 17,
+      "category": "Accesorios"
+    },
+    {
+      "id": 64,
+      "name": "Producto Ficticio 64",
+      "price": 290.0,
+      "stock": 24,
+      "category": "Redes"
+    },
+    {
+      "id": 65,
+      "name": "Producto Ficticio 65",
+      "price": 293.75,
+      "stock": 6,
+      "category": "Audio"
+    },
+    {
+      "id": 66,
+      "name": "Producto Ficticio 66",
+      "price": 297.5,
+      "stock": 13,
+      "category": "Hardware"
+    },
+    {
+      "id": 67,
+      "name": "Producto Ficticio 67",
+      "price": 301.25,
+      "stock": 20,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 68,
+      "name": "Producto Ficticio 68",
+      "price": 305.0,
+      "stock": 2,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 69,
+      "name": "Producto Ficticio 69",
+      "price": 308.75,
+      "stock": 9,
+      "category": "Accesorios"
+    },
+    {
+      "id": 70,
+      "name": "Producto Ficticio 70",
+      "price": 312.5,
+      "stock": 16,
+      "category": "Redes"
+    },
+    {
+      "id": 71,
+      "name": "Producto Ficticio 71",
+      "price": 316.25,
+      "stock": 23,
+      "category": "Audio"
+    },
+    {
+      "id": 72,
+      "name": "Producto Ficticio 72",
+      "price": 320.0,
+      "stock": 5,
+      "category": "Hardware"
+    },
+    {
+      "id": 73,
+      "name": "Producto Ficticio 73",
+      "price": 323.75,
+      "stock": 12,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 74,
+      "name": "Producto Ficticio 74",
+      "price": 327.5,
+      "stock": 19,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 75,
+      "name": "Producto Ficticio 75",
+      "price": 331.25,
+      "stock": 1,
+      "category": "Accesorios"
+    },
+    {
+      "id": 76,
+      "name": "Producto Ficticio 76",
+      "price": 335.0,
+      "stock": 8,
+      "category": "Redes"
+    },
+    {
+      "id": 77,
+      "name": "Producto Ficticio 77",
+      "price": 338.75,
+      "stock": 15,
+      "category": "Audio"
+    },
+    {
+      "id": 78,
+      "name": "Producto Ficticio 78",
+      "price": 342.5,
+      "stock": 22,
+      "category": "Hardware"
+    },
+    {
+      "id": 79,
+      "name": "Producto Ficticio 79",
+      "price": 346.25,
+      "stock": 4,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 80,
+      "name": "Producto Ficticio 80",
+      "price": 350.0,
+      "stock": 11,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 81,
+      "name": "Producto Ficticio 81",
+      "price": 353.75,
+      "stock": 18,
+      "category": "Accesorios"
+    },
+    {
+      "id": 82,
+      "name": "Producto Ficticio 82",
+      "price": 357.5,
+      "stock": 25,
+      "category": "Redes"
+    },
+    {
+      "id": 83,
+      "name": "Producto Ficticio 83",
+      "price": 361.25,
+      "stock": 7,
+      "category": "Audio"
+    },
+    {
+      "id": 84,
+      "name": "Producto Ficticio 84",
+      "price": 365.0,
+      "stock": 14,
+      "category": "Hardware"
+    },
+    {
+      "id": 85,
+      "name": "Producto Ficticio 85",
+      "price": 368.75,
+      "stock": 21,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 86,
+      "name": "Producto Ficticio 86",
+      "price": 372.5,
+      "stock": 3,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 87,
+      "name": "Producto Ficticio 87",
+      "price": 376.25,
+      "stock": 10,
+      "category": "Accesorios"
+    },
+    {
+      "id": 88,
+      "name": "Producto Ficticio 88",
+      "price": 380.0,
+      "stock": 17,
+      "category": "Redes"
+    },
+    {
+      "id": 89,
+      "name": "Producto Ficticio 89",
+      "price": 383.75,
+      "stock": 24,
+      "category": "Audio"
+    },
+    {
+      "id": 90,
+      "name": "Producto Ficticio 90",
+      "price": 387.5,
+      "stock": 6,
+      "category": "Hardware"
+    },
+    {
+      "id": 91,
+      "name": "Producto Ficticio 91",
+      "price": 391.25,
+      "stock": 13,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 92,
+      "name": "Producto Ficticio 92",
+      "price": 395.0,
+      "stock": 20,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 93,
+      "name": "Producto Ficticio 93",
+      "price": 398.75,
+      "stock": 2,
+      "category": "Accesorios"
+    },
+    {
+      "id": 94,
+      "name": "Producto Ficticio 94",
+      "price": 402.5,
+      "stock": 9,
+      "category": "Redes"
+    },
+    {
+      "id": 95,
+      "name": "Producto Ficticio 95",
+      "price": 406.25,
+      "stock": 16,
+      "category": "Audio"
+    },
+    {
+      "id": 96,
+      "name": "Producto Ficticio 96",
+      "price": 410.0,
+      "stock": 23,
+      "category": "Hardware"
+    },
+    {
+      "id": 97,
+      "name": "Producto Ficticio 97",
+      "price": 413.75,
+      "stock": 5,
+      "category": "Visualizaci\u00f3n"
+    },
+    {
+      "id": 98,
+      "name": "Producto Ficticio 98",
+      "price": 417.5,
+      "stock": 12,
+      "category": "Mobiliario"
+    },
+    {
+      "id": 99,
+      "name": "Producto Ficticio 99",
+      "price": 421.25,
+      "stock": 19,
+      "category": "Accesorios"
+    },
+    {
+      "id": 100,
+      "name": "Producto Ficticio 100",
+      "price": 425.0,
+      "stock": 1,
+      "category": "Redes"
+    },
+    {
+      "id": 101,
+      "name": "Producto Ficticio 101",
+      "price": 428.75,
+      "stock": 8,
+      "category": "Audio"
+    },
+    {
+      "id": 102,
+      "name": "Producto Ficticio 102",
+      "price": 432.5,
+      "stock": 15,
+      "category": "Hardware"
+    },
+    {
+      "id": 103,
+      "name": "Producto Ficticio 103",
+      "price": 436.25,
+      "stock": 22,
+      "category": "Visualizaci\u00f3n"
     }
   ]
 }
