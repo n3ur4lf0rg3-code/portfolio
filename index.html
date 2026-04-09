@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Senior | Interactivo</title>
+    <title>Portfolio Elite | Dynamic Edition</title>
     <style>
         :root {
             --primary: #0f172a;
@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. ANIMACIONES CSS */
+        /* ANIMACIONES DE REVELACIÓN */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -32,6 +32,18 @@
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* CURSOR PARPADEANTE */
+        #cursor {
+            border-left: 3px solid var(--secondary);
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         #progress-bar {
@@ -44,15 +56,16 @@
         }
 
         header {
-            height: 70vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            text-align: center;
             background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                         url('images/fondo-hero.webp');
             background-size: cover;
-            background-attachment: fixed; /* Efecto Parallax de fondo */
+            background-attachment: fixed;
         }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
@@ -64,12 +77,6 @@
             border-radius: 20px;
             padding: 2.5rem;
             margin: 3rem 0;
-            transition: transform 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: scale(1.01);
-            border-color: var(--secondary);
         }
 
         .img-fluid {
@@ -77,11 +84,6 @@
             border-radius: 12px;
             margin-bottom: 1.5rem;
             transition: transform 0.5s ease;
-        }
-
-        /* Micro-interacción en imágenes */
-        .img-fluid:hover {
-            transform: translateY(-5px);
         }
 
         .contact-grid {
@@ -97,16 +99,12 @@
             width: 100%; padding: 14px; margin-bottom: 1rem;
             background: rgba(0,0,0,0.4); border: 1px solid var(--text-dim);
             color: white; border-radius: 10px; box-sizing: border-box;
-            transition: border 0.3s;
         }
-
-        input:focus { border-color: var(--secondary); outline: none; }
 
         .btn-submit {
             padding: 14px; border: none; border-radius: 10px;
             background: #334155; color: var(--text-dim);
             cursor: not-allowed; width: 100%; font-weight: bold;
-            transition: all 0.4s ease;
         }
 
         .btn-submit.active {
@@ -120,26 +118,29 @@
     <div id="progress-bar"></div>
 
     <header>
-        <h1 id="hero-title" style="font-size: 3.5rem; margin: 0; letter-spacing: -1px;"></h1>
-        <p class="reveal" style="color: var(--accent); font-weight: 500;">Arquitectura de Software Interactiva</p>
+        <div style="min-height: 120px;">
+            <h1 style="font-size: 3.5rem; margin: 0; display: inline;" id="typewriter"></h1>
+            <span id="cursor"></span>
+        </div>
+        <p class="reveal" style="color: var(--accent); font-weight: 500; margin-top: 20px;">Soluciones Full-Stack de Alto Rendimiento</p>
     </header>
 
     <div class="container">
         
         <section class="glass-card reveal">
-            <h2 style="color: var(--secondary);">Ingeniería de Sistemas</h2>
+            <h2 style="color: var(--secondary);">Ingeniería Digital</h2>
             <img src="images/tecnologias.webp" alt="Tecnologías" class="img-fluid">
-            <p>Implementación de lógicas complejas y optimización de recursos en tiempo real.</p>
+            <p>Construyendo el futuro mediante arquitecturas escalables y código limpio.</p>
         </section>
 
         <section class="glass-card reveal">
-            <h2>Visualización de Datos</h2>
+            <h2>Interfaces Inteligentes</h2>
             <img src="images/dashboard.webp" alt="UI Dashboard" class="img-fluid">
-            <p>Dashboards dinámicos que transforman información en decisiones estratégicas.</p>
+            <p>Transformando datos complejos en experiencias de usuario simples y potentes.</p>
         </section>
 
         <section class="glass-card reveal">
-            <h2 style="color: var(--secondary);">Conectemos</h2>
+            <h2 style="color: var(--secondary);">Iniciemos un Proyecto</h2>
             <div class="contact-grid">
                 <div>
                     <img src="images/contacto.webp" alt="Let's Build" class="img-fluid">
@@ -147,7 +148,7 @@
                 <div>
                     <form id="contact-form">
                         <input type="email" id="email" placeholder="tu@correo.com">
-                        <textarea id="message" rows="5" placeholder="Cuéntame sobre tu visión técnica..."></textarea>
+                        <textarea id="message" rows="5" placeholder="¿Cuál es tu próximo gran desafío técnico?"></textarea>
                         <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Propuesta</button>
                     </form>
                 </div>
@@ -157,30 +158,57 @@
     </div>
 
     <script>
-        // 1. EFECTO TYPING
-        const titleText = "Código en Movimiento";
-        let charIdx = 0;
-        function type() {
-            if (charIdx < titleText.length) {
-                document.getElementById("hero-title").innerHTML += titleText.charAt(charIdx);
-                charIdx++;
-                setTimeout(type, 100);
+        // 1. CONFIGURACIÓN DEL TYPING DINÁMICO
+        const typewriterElement = document.getElementById("typewriter");
+        const phrases = [
+            "Código de Vanguardia",
+            "Sistemas Escalables",
+            "Diseño que Impacta",
+            "Arquitectura Senior",
+            "Innovación Full-Stack"
+        ];
+        
+        let phraseIndex = 0;
+        let characterIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 150;
+
+        function handleType() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentPhrase.substring(0, characterIndex - 1);
+                characterIndex--;
+                typeSpeed = 75; // El borrado es más rápido
+            } else {
+                typewriterElement.textContent = currentPhrase.substring(0, characterIndex + 1);
+                characterIndex++;
+                typeSpeed = 150;
             }
+
+            // Lógica de cambio de estado
+            if (!isDeleting && characterIndex === currentPhrase.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pausa al final de la frase
+            } else if (isDeleting && characterIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Pausa antes de empezar nueva frase
+            }
+
+            setTimeout(handleType, typeSpeed);
         }
 
-        // 2. INTERSECTION OBSERVER (MOVIMIENTO AL SCROLL)
-        const observerOptions = { threshold: 0.15 };
+        // 2. INTERSECTION OBSERVER
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, observerOptions);
+        }, { threshold: 0.15 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 3. BARRA DE PROGRESO DINÁMICA
+        // 3. SCROLL PROGRESS
         window.onscroll = () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -188,7 +216,7 @@
             document.getElementById("progress-bar").style.width = scrolled + "%";
         };
 
-        // 4. VALIDACIÓN DE FORMULARIO
+        // 4. VALIDACIÓN
         const email = document.getElementById("email");
         const message = document.getElementById("message");
         const btn = document.getElementById("submit-btn");
@@ -203,7 +231,8 @@
         email.addEventListener("input", validate);
         message.addEventListener("input", validate);
 
-        window.onload = type;
+        // INICIO
+        window.onload = handleType;
     </script>
 </body>
 </html>
