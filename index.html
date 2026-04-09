@@ -3,33 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Pro | Portafolio Dinámico</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Portafolio Interactivo | UX & Code</title>
+    
+    <style>
+        /* CSS3: Diseño y Variables de Color */
+        :root {
+            --primario: #2563eb;
+            --fondo: #ffffff;
+            --texto: #1f2937;
+            --tarjeta: #f3f4f6;
+        }
+
+        [data-theme="dark"] {
+            --fondo: #111827;
+            --texto: #f9fafb;
+            --tarjeta: #1f2937;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            transition: 0.3s;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        nav { padding: 20px; text-align: right; }
+        
+        header {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .cursor { border-right: 3px solid var(--primario); animation: parpadeo 0.7s infinite; }
+        @keyframes parpadeo { 50% { border-color: transparent; } }
+
+        .filtro-container { text-align: center; margin-bottom: 30px; }
+        
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: var(--primario);
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--tarjeta);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-<body class="light-theme">
+<body>
+
     <nav>
-        <button id="theme-toggle">Cambiar Modo 🌓</button>
+        <button onclick="toggleTema()">Cambiar Color 🌓</button>
     </nav>
 
     <header>
-        <h1>Soy <span id="typing-text"></span></h1>
-        <p>Soluciones digitales a medida.</p>
+        <h1>Hola, soy <span id="escritura" class="cursor"></span></h1>
+        <p>Especialista en interfaces dinámicas y código limpio.</p>
     </header>
 
     <main>
-        <section id="filtro-proyectos">
-            <h2>Mis Proyectos</h2>
-            <div class="botones-filtro">
-                <button onclick="filtrar('todos')">Todos</button>
-                <button onclick="filtrar('web')">Web</button>
-                <button onclick="filtrar('python')">Python</button>
-            </div>
-            <div id="contenedor-proyectos" class="grid-proyectos">
-                <!-- JavaScript llenará esto -->
-            </div>
+        <div class="filtro-container">
+            <button onclick="renderizar('todos')">Todos</button>
+            <button onclick="renderizar('web')">Web</button>
+            <button onclick="renderizar('app')">Apps</button>
+        </div>
+
+        <section id="proyectos-grid" class="grid">
+            <!-- JavaScript inyectará el contenido aquí -->
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        // DOCUMENTACIÓN: Lógica Dinámica de Cliente
+        
+        // 1. Efecto de escritura automática
+        const textoFrase = "Desarrollador FullStack";
+        let i = 0;
+        function escribirEfecto() {
+            if (i < textoFrase.length) {
+                document.getElementById("escritura").innerHTML += textoFrase.charAt(i);
+                i++;
+                setTimeout(escribirEfecto, 100);
+            }
+        }
+
+        // 2. Datos de Proyectos (Simulando una base de datos)
+        const misProyectos = [
+            { titulo: "E-Commerce", cat: "web", desc: "Plataforma de ventas online." },
+            { titulo: "Dashboard AI", cat: "app", desc: "Panel de control inteligente." },
+            { titulo: "Blog Personal", cat: "web", desc: "Sitio optimizado para SEO." }
+        ];
+
+        // 3. Función de renderizado dinámico
+        function renderizar(categoria) {
+            const grid = document.getElementById("proyectos-grid");
+            grid.innerHTML = ""; // Limpiar grid
+
+            const filtrados = categoria === 'todos' 
+                ? misProyectos 
+                : misProyectos.filter(p => p.cat === categoria);
+
+            filtrados.forEach(p => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <h3>${p.titulo}</h3>
+                        <p>${p.desc}</p>
+                        <strong>#${p.cat}</strong>
+                    </div>
+                `;
+            });
+        }
+
+        // 4. Control de Modo Oscuro
+        function toggleTema() {
+            const body = document.body;
+            const actual = body.getAttribute("data-theme");
+            body.setAttribute("data-theme", actual === "dark" ? "light" : "dark");
+        }
+
+        // Iniciar al cargar la página
+        window.onload = () => {
+            escribirEfecto();
+            renderizar('todos');
+        };
+    </script>
 </body>
 </html>
