@@ -3,184 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Senior | Estrategia & Desarrollo</title>
+    <title>Portfolio Elite | Consultoría & Software</title>
     <style>
-        /* VARIABLES Y ESTILO GLOBAL */
+        /* CONFIGURACIÓN ESTÉTICA AVANZADA */
         :root {
-            --primary: #0f172a;
+            --primary: #020617;
             --secondary: #3b82f6;
-            --accent: #fbbf24;
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.03);
+            --accent: #10b981; /* Verde esmeralda para éxito */
+            --glass: rgba(255, 255, 255, 0.05);
+            --text-p: #94a3b8;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--primary);
-            color: var(--text-main);
+            color: #f8fafc;
             margin: 0;
-            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        /* BARRA DE PROGRESO */
-        #progress-bar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 4px;
-            background: var(--secondary);
-            width: 0%;
-            z-index: 1000;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
-        /* DISEÑO DE CRISTAL (GLASSMORPHISM) */
-        .glass-card {
+        /* ESTILO GLASSMORPHISM REFORZADO */
+        .glass-panel {
             background: var(--glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 1rem 0;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
         }
 
-        header {
-            height: 80vh;
+        /* ANIMACIÓN DE TESTIMONIOS */
+        #testimonial-container {
+            height: 120px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+            font-style: italic;
+            transition: opacity 0.5s ease;
         }
 
-        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
-        .highlight { color: var(--secondary); }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-
-        /* INTERACCIÓN: TABS DE SERVICIOS */
-        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1rem; }
-        .tab-btn {
-            background: none; border: 1px solid var(--secondary);
-            color: var(--text-main); padding: 0.8rem 1.5rem;
-            cursor: pointer; border-radius: 8px; transition: 0.3s;
+        /* FORMULARIO DINÁMICO */
+        .form-group { margin-bottom: 1.5rem; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
         }
-        .tab-btn.active { background: var(--secondary); }
-        .tab-content { display: none; animation: fadeIn 0.5s; }
-        .tab-content.active { display: block; }
+        input:focus { border-color: var(--secondary); outline: none; }
+        
+        .btn-submit {
+            background: #334155;
+            color: #94a3b8;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: not-allowed;
+            transition: 0.3s;
+        }
+        .btn-submit.active {
+            background: var(--secondary);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.5);
+        }
 
-        /* CALCULADORA INTERACTIVA */
-        .calc-box { background: #1e293b; padding: 2rem; border-radius: 12px; }
-        select { width: 100%; padding: 10px; margin-top: 10px; background: #0f172a; color: white; border: 1px solid var(--secondary); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .status-msg { font-size: 0.8rem; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
 
-    <div id="progress-bar"></div>
-
-    <header>
-        <h1 id="hero-title"></h1>
-        <p style="font-size: 1.2rem; color: var(--text-dim);">Arquitectura de Software & Experiencias Digitales</p>
-        <a href="#contacto" class="tab-btn" style="text-decoration: none; margin-top: 2rem;">Iniciar Proyecto</a>
-    </header>
-
     <div class="container">
-        
-        <!-- SECCIÓN SOBRE MÍ CON MÁS TEXTO -->
-        <section id="sobre-mi" class="glass-card">
-            <h2 class="highlight">Estrategia y Visión</h2>
-            <p>Con más de 5 años transformando ideas en productos digitales, mi enfoque combina la rigurosidad técnica con una experiencia de usuario excepcional. No solo escribo código; diseño soluciones que escalan y resuelven problemas reales de negocio.</p>
-        </section>
+        <!-- CABECERA -->
+        <header style="padding: 100px 0; text-align: center;">
+            <h1 style="font-size: 3rem; margin-bottom: 10px;">Ingeniería de <span style="color:var(--secondary)">Software</span></h1>
+            <p style="color: var(--text-p)">Código robusto para desafíos globales.</p>
+        </header>
 
-        <!-- INTERACCIÓN: SERVICIOS DINÁMICOS -->
-        <section id="servicios">
-            <h2>Especialidades</h2>
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="openTab(event, 'dev')">Desarrollo</button>
-                <button class="tab-btn" onclick="openTab(event, 'ui')">Diseño UI/UX</button>
-                <button class="tab-btn" onclick="openTab(event, 'cons')">Consultoría</button>
-            </div>
-
-            <div id="dev" class="tab-content active glass-card">
-                <h3>Desarrollo FullStack</h3>
-                <p>Implementación de arquitecturas robustas usando Python, Node.js y React. Enfoque en seguridad, velocidad de carga y optimización de bases de datos.</p>
-            </div>
-            <div id="ui" class="tab-content glass-card">
-                <h3>Interfaces de Alto Impacto</h3>
-                <p>Diseño centrado en el usuario. Creación de prototipos de alta fidelidad que garantizan una navegación fluida y una estética moderna.</p>
-            </div>
-            <div id="cons" class="tab-content glass-card">
-                <h3>Consultoría Técnica</h3>
-                <p>Auditoría de código, optimización de flujos de trabajo en la nube y transformación digital para empresas que buscan modernizar su stack tecnológico.</p>
+        <!-- SECCIÓN: TESTIMONIOS DINÁMICOS -->
+        <section class="glass-panel">
+            <h2 style="text-align: center; font-size: 1rem; color: var(--secondary); letter-spacing: 2px;">OPINIONES DE CLIENTES</h2>
+            <div id="testimonial-container">
+                <p id="testimonial-text">"Excelente profesionalismo y entrega a tiempo."</p>
             </div>
         </section>
 
-        <!-- INTERACCIÓN: CALCULADORA DE PROYECTO -->
-        <section id="calculadora" class="glass-card">
-            <h2 class="highlight">Simulador de Proyecto</h2>
-            <p>Selecciona el tipo de solución que necesitas para ver una estimación inicial:</p>
-            <div class="calc-box">
-                <label>Tipo de Proyecto:</label>
-                <select id="tipo-proyecto" onchange="calcular()">
-                    <option value="0">Seleccionar...</option>
-                    <option value="40">Landing Page (Simple)</option>
-                    <option value="120">E-commerce Completo (Complejo)</option>
-                    <option value="80">Aplicación Corporativa (Media)</option>
-                </select>
-                <p id="resultado-calc" style="margin-top: 1.5rem; font-weight: bold;"></p>
-            </div>
+        <!-- SECCIÓN: CONTACTO E INTERACCIÓN -->
+        <section class="glass-panel">
+            <h2>Hablemos de tu proyecto</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="user-email" placeholder="ejemplo@correo.com">
+                    <span id="email-hint" class="status-msg"></span>
+                </div>
+                <div class="form-group">
+                    <label>Mensaje</label>
+                    <textarea id="user-msg" rows="4" placeholder="¿En qué puedo ayudarte?"></textarea>
+                </div>
+                <button type="button" id="submit-btn" class="btn-submit">Enviar Propuesta</button>
+            </form>
         </section>
-
     </div>
 
     <script>
-        // 1. Efecto de escritura profesional
-        const titulo = "Soluciones Digitales de Alto Nivel";
-        let index = 0;
-        function typeHero() {
-            if (index < titulo.length) {
-                document.getElementById("hero-title").innerHTML += titulo.charAt(index);
-                index++;
-                setTimeout(typeHero, 50);
-            }
+        /* 1. LÓGICA DE TESTIMONIOS (ARRAY DINÁMICO) */
+        const testimonios = [
+            "\"La mejor inversión en desarrollo para nuestra startup.\" - CEO TechFlow",
+            "\"Arquitectura limpia y escalable. Altamente recomendado.\" - Lead Dev Global",
+            "\"Capacidad analítica excepcional para problemas complejos.\" - Director Innovación"
+        ];
+        let tIndex = 0;
+
+        function rotarTestimonios() {
+            const el = document.getElementById("testimonial-text");
+            el.style.opacity = 0; // Efecto de desvanecimiento
+            
+            setTimeout(() => {
+                tIndex = (tIndex + 1) % testimonios.length;
+                el.innerText = testimonios[tIndex];
+                el.style.opacity = 1;
+            }, 500);
         }
+        setInterval(rotarTestimonios, 4000); // Cambia cada 4 segundos
 
-        // 2. Barra de progreso de lectura
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-        };
+        /* 2. VALIDACIÓN DE FORMULARIO EN TIEMPO REAL */
+        const emailInput = document.getElementById("user-email");
+        const msgInput = document.getElementById("user-msg");
+        const submitBtn = document.getElementById("submit-btn");
+        const hint = document.getElementById("email-hint");
 
-        // 3. Lógica de TABS
-        function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
+        function validar() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailRegex.test(emailInput.value);
+            const isMsgValid = msgInput.value.length > 10;
 
-        // 4. Lógica del Simulador
-        function calcular() {
-            const horas = document.getElementById("tipo-proyecto").value;
-            const output = document.getElementById("resultado-calc");
-            if (horas > 0) {
-                output.innerHTML = `Estimación: Aproximadamente ${horas} horas de desarrollo especializado.`;
-                output.style.color = "var(--accent)";
+            if (isEmailValid) {
+                hint.innerText = "Correo válido ✓";
+                hint.style.color = "var(--accent)";
             } else {
-                output.innerHTML = "";
+                hint.innerText = "Introduce un correo real";
+                hint.style.color = "#ef4444";
+            }
+
+            if (isEmailValid && isMsgValid) {
+                submitBtn.classList.add("active");
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.classList.remove("active");
+                submitBtn.disabled = true;
             }
         }
 
-        window.onload = () => {
-            typeHero();
-        };
+        emailInput.addEventListener("input", validar);
+        msgInput.addEventListener("input", validar);
+
+        /* 3. SIMULACIÓN DE ENVÍO */
+        submitBtn.addEventListener("click", () => {
+            submitBtn.innerText = "¡Mensaje Enviado!";
+            submitBtn.style.background = "var(--accent)";
+            document.getElementById("contact-form").reset();
+            setTimeout(() => {
+                submitBtn.innerText = "Enviar Propuesta";
+                submitBtn.classList.remove("active");
+                validar();
+            }, 3000);
+        });
     </script>
 </body>
 </html>
