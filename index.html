@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Senior | Estrategia & Desarrollo</title>
+    <title>Portfolio Senior | Software & Design</title>
     <style>
-        /* MANTENIENDO TU ESTRUCTURA Y COLORES ORIGINALES */
         :root {
             --primary: #0f172a;
             --secondary: #3b82f6;
@@ -24,6 +23,7 @@
             scroll-behavior: smooth;
         }
 
+        /* BARRA DE PROGRESO */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
@@ -32,6 +32,24 @@
             width: 0%;
             z-index: 1000;
         }
+
+        /* HEADER CON IMAGEN LOCAL */
+        header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* Usando la ruta local: images/fondo-hero.webp */
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                        url('images/fondo-hero.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
 
         .glass-card {
             background: var(--glass);
@@ -42,62 +60,14 @@
             margin: 1rem 0;
         }
 
-        header {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
-        }
-
-        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
-        .highlight { color: var(--secondary); }
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-
-        /* ESTILOS PARA LAS NUEVAS RECOMENDACIONES */
-        #testimonial-text {
-            transition: opacity 0.5s ease;
-            font-style: italic;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        input, textarea {
+        .img-proyecto {
             width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--text-dim);
-            color: white;
-            border-radius: 8px;
-            box-sizing: border-box;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn-submit {
-            margin-top: 20px;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            background: #334155;
-            color: var(--text-dim);
-            cursor: not-allowed;
-            transition: 0.3s;
-            width: 100%;
-            font-weight: bold;
-        }
-
-        .btn-submit.active {
-            background: var(--secondary);
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
-        }
-
-        /* TABS Y OTROS ELEMENTOS PREVIOS */
+        /* TABS */
         .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1rem; }
         .tab-btn {
             background: none; border: 1px solid var(--secondary);
@@ -109,6 +79,19 @@
         .tab-content.active { display: block; animation: fadeIn 0.5s; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* FORMULARIO */
+        input, textarea {
+            width: 100%; padding: 12px; margin-top: 8px;
+            background: rgba(0,0,0,0.2); border: 1px solid var(--text-dim);
+            color: white; border-radius: 8px; box-sizing: border-box;
+        }
+        .btn-submit {
+            margin-top: 20px; padding: 12px 24px; border: none;
+            border-radius: 8px; background: #334155;
+            color: var(--text-dim); cursor: not-allowed; width: 100%; font-weight: bold;
+        }
+        .btn-submit.active { background: var(--secondary); color: white; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -117,53 +100,50 @@
 
     <header>
         <h1 id="hero-title"></h1>
-        <p style="font-size: 1.2rem; color: var(--text-dim);">Arquitectura de Software & Experiencias Digitales</p>
+        <p style="font-size: 1.2rem; color: var(--text-dim);">Estrategia Digital & Desarrollo FullStack</p>
     </header>
 
     <div class="container">
         
-        <!-- SECCIÓN SOBRE MÍ -->
+        <!-- SECCIÓN: TECNOLOGÍAS -->
         <section class="glass-card">
-            <h2 class="highlight">Estrategia y Visión</h2>
-            <p>Con más de 5 años transformando ideas en productos digitales, mi enfoque combina la rigurosidad técnica con una experiencia de usuario excepcional.</p>
+            <h2 style="color: var(--secondary);">Ecosistema Técnico</h2>
+            <p>Implementación de soluciones robustas utilizando tecnologías de vanguardia para garantizar escalabilidad.</p>
+            <!-- Ruta local: images/tecnologias.webp -->
+            <img src="images/tecnologias.webp" alt="Tecnologías" class="img-proyecto">
         </section>
 
-        <!-- NUEVA RECOMENDACIÓN: TESTIMONIOS ANIMADOS -->
+        <!-- SECCIÓN: TESTIMONIOS -->
         <section class="glass-card" style="text-align: center;">
-            <h3 style="color: var(--accent); font-size: 0.9rem; letter-spacing: 2px;">TESTIMONIOS</h3>
-            <div id="testimonial-text">"Cargando opiniones de clientes..."</div>
+            <div id="testimonial-text" style="font-style: italic; color: var(--accent); min-height: 40px;"></div>
         </section>
 
-        <!-- SERVICIOS DINÁMICOS -->
+        <!-- SECCIÓN: PROYECTOS -->
         <section id="servicios">
             <h2>Especialidades</h2>
             <div class="tab-buttons">
-                <button class="tab-btn active" onclick="openTab(event, 'dev')">Desarrollo</button>
-                <button class="tab-btn" onclick="openTab(event, 'ui')">Diseño UI/UX</button>
+                <button class="tab-btn active" onclick="openTab(event, 'dev')">Sistemas</button>
+                <button class="tab-btn" onclick="openTab(event, 'ui')">Interfaces</button>
             </div>
 
             <div id="dev" class="tab-content active glass-card">
-                <h3>Desarrollo FullStack</h3>
-                <p>Implementación de arquitecturas robustas usando Python y React.</p>
+                <h3>Arquitectura Backend</h3>
+                <p>Diseño de bases de datos y lógica de servidor optimizada para alto tráfico.</p>
             </div>
             <div id="ui" class="tab-content glass-card">
-                <h3>Interfaces de Alto Impacto</h3>
-                <p>Diseño centrado en el usuario y prototipos de alta fidelidad.</p>
+                <h3>Diseño UX/UI</h3>
+                <p>Prototipado de paneles de control y dashboards inteligentes.</p>
+                <!-- Ruta local: images/dashboard.webp -->
+                <img src="images/dashboard.webp" alt="Dashboard" class="img-proyecto">
             </div>
         </section>
 
-        <!-- NUEVA RECOMENDACIÓN: FORMULARIO INTERACTIVO -->
-        <section id="contacto" class="glass-card">
-            <h2 class="highlight">Iniciar un Proyecto</h2>
+        <!-- SECCIÓN: CONTACTO -->
+        <section class="glass-card">
+            <h2 style="color: var(--secondary);">Hablemos de tu proyecto</h2>
             <form id="contact-form">
-                <div style="margin-bottom: 15px;">
-                    <label>Tu Email:</label>
-                    <input type="email" id="user-email" placeholder="nombre@correo.com">
-                </div>
-                <div>
-                    <label>Mensaje:</label>
-                    <textarea id="user-msg" rows="4" placeholder="Cuéntame sobre tu idea..."></textarea>
-                </div>
+                <input type="email" id="user-email" placeholder="tu@email.com">
+                <textarea id="user-msg" rows="4" placeholder="¿Cómo puedo ayudarte?"></textarea>
                 <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Propuesta</button>
             </form>
         </section>
@@ -171,18 +151,18 @@
     </div>
 
     <script>
-        // 1. ESCRITURA AUTOMÁTICA (EXISTENTE)
-        const titulo = "Soluciones Digitales de Alto Nivel";
-        let index = 0;
+        // LÓGICA DE ESCRITURA
+        const titulo = "Soluciones Digitales Senior";
+        let idx = 0;
         function typeHero() {
-            if (index < titulo.length) {
-                document.getElementById("hero-title").innerHTML += titulo.charAt(index);
-                index++;
-                setTimeout(typeHero, 50);
+            if (idx < titulo.length) {
+                document.getElementById("hero-title").innerHTML += titulo.charAt(idx);
+                idx++;
+                setTimeout(typeHero, 70);
             }
         }
 
-        // 2. BARRA DE PROGRESO (EXISTENTE)
+        // BARRA DE PROGRESO
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -190,63 +170,50 @@
             document.getElementById("progress-bar").style.width = scrolled + "%";
         };
 
-        // 3. LÓGICA DE TESTIMONIOS (NUEVA)
+        // TESTIMONIOS
         const testimonios = [
-            "\"La mejor inversión en desarrollo para nuestra startup.\" - Tech CEO",
-            "\"Arquitectura limpia y escalable. Muy profesional.\" - CTO Global",
-            "\"Resolvió problemas complejos con soluciones simples.\" - Product Manager"
+            "\"Arquitectura de código excepcional.\" - Lead Engineer",
+            "\"Entrega impecable y diseño de vanguardia.\" - Startup Founder",
+            "\"Socio tecnológico estratégico para nuestro crecimiento.\" - CTO"
         ];
-        let tIndex = 0;
+        let tIdx = 0;
         function rotarTestimonios() {
             const el = document.getElementById("testimonial-text");
             el.style.opacity = 0;
             setTimeout(() => {
-                tIndex = (tIndex + 1) % testimonios.length;
-                el.innerText = testimonios[tIndex];
+                tIdx = (tIdx + 1) % testimonios.length;
+                el.innerText = testimonios[tIdx];
                 el.style.opacity = 1;
             }, 500);
         }
         setInterval(rotarTestimonios, 4000);
 
-        // 4. VALIDACIÓN DE FORMULARIO (NUEVA)
-        const emailInput = document.getElementById("user-email");
-        const msgInput = document.getElementById("user-msg");
-        const submitBtn = document.getElementById("submit-btn");
+        // VALIDACIÓN DE FORMULARIO
+        const email = document.getElementById("user-email");
+        const msg = document.getElementById("user-msg");
+        const btn = document.getElementById("submit-btn");
 
-        function validarFormulario() {
-            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
-            const msgValido = msgInput.value.trim().length > 10;
-
-            if (emailValido && msgValido) {
-                submitBtn.classList.add("active");
-                submitBtn.disabled = false;
+        function validar() {
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+            const isMsg = msg.value.trim().length > 10;
+            if (isEmail && isMsg) {
+                btn.classList.add("active");
+                btn.disabled = false;
             } else {
-                submitBtn.classList.remove("active");
-                submitBtn.disabled = true;
+                btn.classList.remove("active");
+                btn.disabled = true;
             }
         }
+        email.addEventListener("input", validar);
+        msg.addEventListener("input", validar);
 
-        emailInput.addEventListener("input", validarFormulario);
-        msgInput.addEventListener("input", validarFormulario);
-
-        submitBtn.addEventListener("click", () => {
-            submitBtn.innerText = "¡Mensaje Enviado con Éxito!";
-            submitBtn.style.background = "var(--success)";
-            setTimeout(() => {
-                submitBtn.innerText = "Enviar Propuesta";
-                submitBtn.style.background = "var(--secondary)";
-                document.getElementById("contact-form").reset();
-                validarFormulario();
-            }, 3000);
-        });
-
-        // 5. TABS (EXISTENTE)
+        // TABS
         function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+            let i, content, links;
+            content = document.getElementsByClassName("tab-content");
+            for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
+            links = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < links.length; i++) { links[i].classList.remove("active"); }
             document.getElementById(tabName).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
