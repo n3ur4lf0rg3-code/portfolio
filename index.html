@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Senior | Software & Design</title>
+    <title>Portfolio Senior | Desarrollo & Estrategia</title>
     <style>
+        /* 1. CONFIGURACIÓN DE VARIABLES Y ESTILOS BASE */
         :root {
             --primary: #0f172a;
             --secondary: #3b82f6;
@@ -23,7 +24,7 @@
             scroll-behavior: smooth;
         }
 
-        /* BARRA DE PROGRESO */
+        /* 2. COMPONENTES VISUALES */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
@@ -33,7 +34,6 @@
             z-index: 1000;
         }
 
-        /* HEADER CON IMAGEN LOCAL */
         header {
             height: 80vh;
             display: flex;
@@ -41,14 +41,13 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            /* Usando la ruta local: images/fondo-hero.webp */
+            /* RUTA LOCAL PARA IMAGEN DE FONDO */
             background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
                         url('images/fondo-hero.webp');
             background-size: cover;
             background-position: center;
         }
 
-        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
         .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
 
         .glass-card {
@@ -60,14 +59,14 @@
             margin: 1rem 0;
         }
 
-        .img-proyecto {
+        .img-display {
             width: 100%;
             border-radius: 12px;
             margin-top: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* TABS */
+        /* 3. INTERACTIVIDAD (TABS Y BOTONES) */
         .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1rem; }
         .tab-btn {
             background: none; border: 1px solid var(--secondary);
@@ -78,20 +77,14 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* FORMULARIO */
-        input, textarea {
-            width: 100%; padding: 12px; margin-top: 8px;
-            background: rgba(0,0,0,0.2); border: 1px solid var(--text-dim);
-            color: white; border-radius: 8px; box-sizing: border-box;
-        }
         .btn-submit {
             margin-top: 20px; padding: 12px 24px; border: none;
             border-radius: 8px; background: #334155;
             color: var(--text-dim); cursor: not-allowed; width: 100%; font-weight: bold;
         }
         .btn-submit.active { background: var(--secondary); color: white; cursor: pointer; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -100,127 +93,125 @@
 
     <header>
         <h1 id="hero-title"></h1>
-        <p style="font-size: 1.2rem; color: var(--text-dim);">Estrategia Digital & Desarrollo FullStack</p>
+        <p style="font-size: 1.2rem; color: var(--text-dim);">Soluciones de Software Escalables</p>
     </header>
 
     <div class="container">
         
-        <!-- SECCIÓN: TECNOLOGÍAS -->
+        <!-- SECCIÓN: STACK TECNOLÓGICO -->
         <section class="glass-card">
-            <h2 style="color: var(--secondary);">Ecosistema Técnico</h2>
-            <p>Implementación de soluciones robustas utilizando tecnologías de vanguardia para garantizar escalabilidad.</p>
-            <!-- Ruta local: images/tecnologias.webp -->
-            <img src="images/tecnologias.webp" alt="Tecnologías" class="img-proyecto">
+            <h2 style="color: var(--secondary);">Ecosistema de Desarrollo</h2>
+            <p>Especialista en arquitecturas modernas que priorizan el rendimiento y la seguridad.</p>
+            <img src="images/tecnologias.webp" alt="Stack Tecnológico" class="img-display">
         </section>
 
-        <!-- SECCIÓN: TESTIMONIOS -->
+        <!-- SECCIÓN: TESTIMONIOS DINÁMICOS -->
         <section class="glass-card" style="text-align: center;">
-            <div id="testimonial-text" style="font-style: italic; color: var(--accent); min-height: 40px;"></div>
+            <div id="testimonial-display" style="font-style: italic; color: var(--accent); min-height: 50px;"></div>
         </section>
 
-        <!-- SECCIÓN: PROYECTOS -->
-        <section id="servicios">
+        <!-- SECCIÓN: ESPECIALIDADES CON TABS -->
+        <section id="especialidades">
             <h2>Especialidades</h2>
             <div class="tab-buttons">
-                <button class="tab-btn active" onclick="openTab(event, 'dev')">Sistemas</button>
-                <button class="tab-btn" onclick="openTab(event, 'ui')">Interfaces</button>
+                <button class="tab-btn active" onclick="switchTab(event, 'sistemas')">Sistemas</button>
+                <button class="tab-btn" onclick="switchTab(event, 'interfaz')">Interfaz</button>
             </div>
 
-            <div id="dev" class="tab-content active glass-card">
-                <h3>Arquitectura Backend</h3>
-                <p>Diseño de bases de datos y lógica de servidor optimizada para alto tráfico.</p>
+            <div id="sistemas" class="tab-content active glass-card">
+                <h3>Ingeniería de Backend</h3>
+                <p>Construcción de APIs robustas y gestión eficiente de flujos de datos complejos.</p>
             </div>
-            <div id="ui" class="tab-content glass-card">
-                <h3>Diseño UX/UI</h3>
-                <p>Prototipado de paneles de control y dashboards inteligentes.</p>
-                <!-- Ruta local: images/dashboard.webp -->
-                <img src="images/dashboard.webp" alt="Dashboard" class="img-proyecto">
+            <div id="interfaz" class="tab-content glass-card">
+                <h3>Experiencia de Usuario</h3>
+                <p>Diseño de tableros de control intuitivos y analítica visual avanzada.</p>
+                <img src="images/dashboard.webp" alt="Diseño de Interfaz" class="img-display">
             </div>
         </section>
 
-        <!-- SECCIÓN: CONTACTO -->
+        <!-- SECCIÓN: CONTACTO CON VALIDACIÓN -->
         <section class="glass-card">
-            <h2 style="color: var(--secondary);">Hablemos de tu proyecto</h2>
+            <h2 style="color: var(--secondary);">Hablemos de tu próximo paso</h2>
             <form id="contact-form">
-                <input type="email" id="user-email" placeholder="tu@email.com">
-                <textarea id="user-msg" rows="4" placeholder="¿Cómo puedo ayudarte?"></textarea>
-                <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Propuesta</button>
+                <input type="email" id="email-field" placeholder="correo@ejemplo.com" style="width:100%; padding:12px; margin-bottom:10px; background:rgba(0,0,0,0.2); border:1px solid var(--text-dim); color:white; border-radius:8px; box-sizing:border-box;">
+                <textarea id="msg-field" rows="4" placeholder="Describe tu visión..." style="width:100%; padding:12px; background:rgba(0,0,0,0.2); border:1px solid var(--text-dim); color:white; border-radius:8px; box-sizing:border-box;"></textarea>
+                <button type="button" id="form-btn" class="btn-submit" disabled>Enviar Propuesta</button>
             </form>
         </section>
 
     </div>
 
     <script>
-        // LÓGICA DE ESCRITURA
-        const titulo = "Soluciones Digitales Senior";
-        let idx = 0;
-        function typeHero() {
-            if (idx < titulo.length) {
-                document.getElementById("hero-title").innerHTML += titulo.charAt(idx);
-                idx++;
-                setTimeout(typeHero, 70);
+        // 1. EFECTO DE ESCRITURA
+        const phrase = "Arquitectura de Software Profesional";
+        let charIndex = 0;
+        function typeWriter() {
+            if (charIndex < phrase.length) {
+                document.getElementById("hero-title").innerHTML += phrase.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 60);
             }
         }
 
-        // BARRA DE PROGRESO
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
+        // 2. BARRA DE PROGRESO DE SCROLL
+        window.onscroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
             document.getElementById("progress-bar").style.width = scrolled + "%";
         };
 
-        // TESTIMONIOS
-        const testimonios = [
-            "\"Arquitectura de código excepcional.\" - Lead Engineer",
-            "\"Entrega impecable y diseño de vanguardia.\" - Startup Founder",
-            "\"Socio tecnológico estratégico para nuestro crecimiento.\" - CTO"
+        // 3. CARRUSEL DE TESTIMONIOS
+        const quotes = [
+            "\"Un enfoque técnico impecable y escalable.\" - Tech Lead",
+            "\"Diseño que realmente entiende al usuario final.\" - Product Owner",
+            "\"Eficiencia total en la resolución de problemas complejos.\" - CTO"
         ];
-        let tIdx = 0;
-        function rotarTestimonios() {
-            const el = document.getElementById("testimonial-text");
+        let qIndex = 0;
+        function rotateQuotes() {
+            const el = document.getElementById("testimonial-display");
             el.style.opacity = 0;
             setTimeout(() => {
-                tIdx = (tIdx + 1) % testimonios.length;
-                el.innerText = testimonios[tIdx];
+                qIndex = (qIndex + 1) % quotes.length;
+                el.innerText = quotes[qIndex];
                 el.style.opacity = 1;
             }, 500);
         }
-        setInterval(rotarTestimonios, 4000);
+        setInterval(rotateQuotes, 4500);
 
-        // VALIDACIÓN DE FORMULARIO
-        const email = document.getElementById("user-email");
-        const msg = document.getElementById("user-msg");
-        const btn = document.getElementById("submit-btn");
+        // 4. LÓGICA DE VALIDACIÓN DE FORMULARIO
+        const emailInput = document.getElementById("email-field");
+        const msgInput = document.getElementById("msg-field");
+        const submitBtn = document.getElementById("form-btn");
 
-        function validar() {
-            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
-            const isMsg = msg.value.trim().length > 10;
-            if (isEmail && isMsg) {
-                btn.classList.add("active");
-                btn.disabled = false;
+        function validate() {
+            const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+            const validMsg = msgInput.value.trim().length > 15;
+            if (validEmail && validMsg) {
+                submitBtn.classList.add("active");
+                submitBtn.disabled = false;
             } else {
-                btn.classList.remove("active");
-                btn.disabled = true;
+                submitBtn.classList.remove("active");
+                submitBtn.disabled = true;
             }
         }
-        email.addEventListener("input", validar);
-        msg.addEventListener("input", validar);
+        emailInput.addEventListener("input", validate);
+        msgInput.addEventListener("input", validate);
 
-        // TABS
-        function openTab(evt, tabName) {
-            let i, content, links;
-            content = document.getElementsByClassName("tab-content");
-            for (i = 0; i < content.length; i++) { content[i].classList.remove("active"); }
+        // 5. NAVEGACIÓN POR TABS
+        function switchTab(evt, name) {
+            let i, contents, links;
+            contents = document.getElementsByClassName("tab-content");
+            for (i = 0; i < contents.length; i++) contents[i].classList.remove("active");
             links = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < links.length; i++) { links[i].classList.remove("active"); }
-            document.getElementById(tabName).classList.add("active");
+            for (i = 0; i < links.length; i++) links[i].classList.remove("active");
+            document.getElementById(name).classList.add("active");
             evt.currentTarget.classList.add("active");
         }
 
         window.onload = () => {
-            typeHero();
-            rotarTestimonios();
+            typeWriter();
+            rotateQuotes();
         };
     </script>
 </body>
