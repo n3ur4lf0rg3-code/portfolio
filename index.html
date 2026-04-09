@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Senior | FullStack Developer</title>
+    <title>Portfolio Senior | Interactivo</title>
     <style>
         :root {
             --primary: #0f172a;
@@ -19,51 +19,71 @@
             background-color: var(--primary);
             color: var(--text-main);
             margin: 0;
-            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        /* BARRA DE PROGRESO */
+        /* 1. ANIMACIONES CSS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
             height: 4px;
-            background: var(--secondary);
+            background: linear-gradient(to right, var(--secondary), var(--accent));
             width: 0%;
             z-index: 1000;
         }
 
-        /* HEADER */
         header {
-            height: 60vh;
+            height: 70vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                         url('images/fondo-hero.webp');
             background-size: cover;
-            background-position: center;
+            background-attachment: fixed; /* Efecto Parallax de fondo */
         }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
 
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: scale(1.01);
+            border-color: var(--secondary);
         }
 
         .img-fluid {
             width: 100%;
             border-radius: 12px;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.5s ease;
         }
 
-        /* FORMULARIO Y NUEVA IMAGEN */
+        /* Micro-interacción en imágenes */
+        .img-fluid:hover {
+            transform: translateY(-5px);
+        }
+
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -71,25 +91,27 @@
             align-items: center;
         }
 
-        @media (max-width: 768px) {
-            .contact-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
 
         input, textarea {
-            width: 100%; padding: 12px; margin-bottom: 1rem;
-            background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim);
-            color: white; border-radius: 8px; box-sizing: border-box;
+            width: 100%; padding: 14px; margin-bottom: 1rem;
+            background: rgba(0,0,0,0.4); border: 1px solid var(--text-dim);
+            color: white; border-radius: 10px; box-sizing: border-box;
+            transition: border 0.3s;
         }
 
+        input:focus { border-color: var(--secondary); outline: none; }
+
         .btn-submit {
-            padding: 12px 24px; border: none; border-radius: 8px;
+            padding: 14px; border: none; border-radius: 10px;
             background: #334155; color: var(--text-dim);
             cursor: not-allowed; width: 100%; font-weight: bold;
-            transition: 0.3s;
+            transition: all 0.4s ease;
         }
 
         .btn-submit.active {
             background: var(--secondary); color: white; cursor: pointer;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
     </style>
 </head>
@@ -98,39 +120,35 @@
     <div id="progress-bar"></div>
 
     <header>
-        <h1 id="hero-title" style="font-size: 3rem; margin: 0;"></h1>
-        <p style="color: var(--accent);">Innovación a través del Código</p>
+        <h1 id="hero-title" style="font-size: 3.5rem; margin: 0; letter-spacing: -1px;"></h1>
+        <p class="reveal" style="color: var(--accent); font-weight: 500;">Arquitectura de Software Interactiva</p>
     </header>
 
     <div class="container">
         
-        <!-- SECCIÓN: TECNOLOGÍAS -->
-        <section class="glass-card">
-            <h2>Stack Tecnológico</h2>
+        <section class="glass-card reveal">
+            <h2 style="color: var(--secondary);">Ingeniería de Sistemas</h2>
             <img src="images/tecnologias.webp" alt="Tecnologías" class="img-fluid">
-            <p>Dominio de herramientas modernas para soluciones escalables.</p>
+            <p>Implementación de lógicas complejas y optimización de recursos en tiempo real.</p>
         </section>
 
-        <!-- SECCIÓN: PROYECTOS/UI -->
-        <section class="glass-card">
-            <h2>Interfaces de Usuario</h2>
+        <section class="glass-card reveal">
+            <h2>Visualización de Datos</h2>
             <img src="images/dashboard.webp" alt="UI Dashboard" class="img-fluid">
-            <p>Diseño centrado en la usabilidad y la estética profesional.</p>
+            <p>Dashboards dinámicos que transforman información en decisiones estratégicas.</p>
         </section>
 
-        <!-- SECCIÓN: CONTACTO (CON LA NUEVA IMAGEN) -->
-        <section class="glass-card">
-            <h2 style="color: var(--secondary);">¿Listo para construir?</h2>
+        <section class="glass-card reveal">
+            <h2 style="color: var(--secondary);">Conectemos</h2>
             <div class="contact-grid">
                 <div>
-                    <!-- NUEVA IMAGEN DE CONTACTO -->
                     <img src="images/contacto.webp" alt="Let's Build" class="img-fluid">
                 </div>
                 <div>
                     <form id="contact-form">
-                        <input type="email" id="email" placeholder="tu@email.com">
-                        <textarea id="message" rows="5" placeholder="Cuéntame sobre tu proyecto..."></textarea>
-                        <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Mensaje</button>
+                        <input type="email" id="email" placeholder="tu@correo.com">
+                        <textarea id="message" rows="5" placeholder="Cuéntame sobre tu visión técnica..."></textarea>
+                        <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Propuesta</button>
                     </form>
                 </div>
             </div>
@@ -139,18 +157,30 @@
     </div>
 
     <script>
-        // EFECTO DE ESCRITURA
-        const text = "Desarrollo Digital de Élite";
-        let i = 0;
-        function typeWriter() {
-            if (i < text.length) {
-                document.getElementById("hero-title").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 80);
+        // 1. EFECTO TYPING
+        const titleText = "Código en Movimiento";
+        let charIdx = 0;
+        function type() {
+            if (charIdx < titleText.length) {
+                document.getElementById("hero-title").innerHTML += titleText.charAt(charIdx);
+                charIdx++;
+                setTimeout(type, 100);
             }
         }
 
-        // BARRA DE PROGRESO
+        // 2. INTERSECTION OBSERVER (MOVIMIENTO AL SCROLL)
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 3. BARRA DE PROGRESO DINÁMICA
         window.onscroll = () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -158,7 +188,7 @@
             document.getElementById("progress-bar").style.width = scrolled + "%";
         };
 
-        // VALIDACIÓN DE FORMULARIO
+        // 4. VALIDACIÓN DE FORMULARIO
         const email = document.getElementById("email");
         const message = document.getElementById("message");
         const btn = document.getElementById("submit-btn");
@@ -166,19 +196,14 @@
         function validate() {
             const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
             const isMsg = message.value.trim().length > 10;
-            if (isEmail && isMsg) {
-                btn.classList.add("active");
-                btn.disabled = false;
-            } else {
-                btn.classList.remove("active");
-                btn.disabled = true;
-            }
+            btn.classList.toggle("active", isEmail && isMsg);
+            btn.disabled = !(isEmail && isMsg);
         }
 
         email.addEventListener("input", validate);
         message.addEventListener("input", validate);
 
-        window.onload = typeWriter;
+        window.onload = type;
     </script>
 </body>
 </html>
