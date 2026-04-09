@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Gear Shop | Hardware para Expertos</title>
+    <title>Elite Gear Shop | JSON Powered</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -18,33 +18,22 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            overflow-x: hidden;
         }
 
-        /* HEADER DINÁMICO */
         .store-header {
-            height: 40vh;
+            height: 35vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
-                        url('../../images/fondo-hero.webp');
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('../../images/fondo-hero.webp');
             background-size: cover;
-            border-bottom: 1px solid var(--glass);
         }
 
-        .typing-container {
-            font-size: 2rem;
-            color: var(--accent);
-            font-weight: bold;
-            min-height: 50px;
-        }
-
-        /* GRID DE PRODUCTOS */
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
-        .product-grid {
+        /* Contenedor donde se cargarán los productos */
+        #product-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
@@ -57,55 +46,32 @@
             border-radius: 20px;
             padding: 25px;
             text-align: center;
-            transition: all 0.4s ease;
+            transition: 0.3s;
         }
 
-        .product-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 180px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: var(--primary);
-        }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
         .buy-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px;
             border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
             width: 100%;
-            transition: all 0.3s;
+            font-weight: bold;
         }
 
-        .buy-btn:hover { background: #2563eb; }
-
-        /* NOTIFICACIÓN */
         #toast {
             position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 20px;
+            right: 20px;
             background: var(--accent);
             color: var(--bg);
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: bold;
+            padding: 15px 25px;
+            border-radius: 10px;
             display: none;
-            z-index: 2000;
+            z-index: 100;
         }
     </style>
 </head>
@@ -113,102 +79,81 @@
 
     <header class="store-header">
         <h1>Elite Gear Shop</h1>
-        <div class="typing-container" id="typing-text"></div>
+        <div id="typing-text" style="color: var(--accent); font-weight: bold;"></div>
+        <p>Carrito: <span id="cart-count">0</span> productos</p>
     </header>
 
     <div class="container">
-        <div class="product-grid">
-            <!-- Producto 1 -->
-            <div class="product-card">
-                <div class="product-image">IMG_PREVIEW</div>
-                <h3>Teclado Mecánico Pro</h3>
-                <p>Latencia cero para código fluido.</p>
-                <h4 style="color: var(--accent)">$189.00</h4>
-                <button class="buy-btn" onclick="buyItem('Teclado Pro')">Comprar Ahora</button>
-            </div>
-
-            <!-- Producto 2 -->
-            <div class="product-card">
-                <div class="product-image">IMG_PREVIEW</div>
-                <h3>Monitor Curvo 49"</h3>
-                <p>Visualiza todo tu stack a la vez.</p>
-                <h4 style="color: var(--accent)">$1,200.00</h4>
-                <button class="buy-btn" onclick="buyItem('Monitor Curvo')">Comprar Ahora</button>
-            </div>
-
-            <!-- Producto 3 -->
-            <div class="product-card">
-                <div class="product-image">IMG_PREVIEW</div>
-                <h3>Silla Ergo-Tech</h3>
-                <p>Soporte para sesiones de 12h+.</p>
-                <h4 style="color: var(--accent)">$450.00</h4>
-                <button class="buy-btn" onclick="buyItem('Silla Ergo')">Comprar Ahora</button>
-            </div>
+        <div id="product-container">
+            <!-- Los productos se cargan aquí mediante JavaScript -->
         </div>
     </div>
 
     <div id="toast"></div>
-
-    <!-- Audio del sistema -->
-    <audio id="click-sound" src="assets/click.mp3"></audio>
+    <audio id="ecomm-sound" src="assets/ecomm.mp3"></audio>
 
     <script>
-        // 1. EFECTO DE ESCRITURA INFINITO
-        const phrases = [
-            "Equipamiento para Arquitectos de Software",
-            "Hardware que potencia tu Lógica",
-            "Herramientas de Alto Rendimiento",
-            "Optimiza tu Estación de Trabajo"
-        ];
-        
-        let pIdx = 0;
-        let cIdx = 0;
-        let isRemoving = false;
-        const target = document.getElementById("typing-text");
-
-        function typeLoop() {
-            const current = phrases[pIdx];
-            if (isRemoving) {
-                target.textContent = current.substring(0, cIdx - 1);
-                cIdx--;
-            } else {
-                target.textContent = current.substring(0, cIdx + 1);
-                cIdx++;
+        // 1. CARGA DE JSON Y RENDERIZADO
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                const data = await response.json();
+                renderProducts(data.products);
+            } catch (error) {
+                console.error("Error cargando el JSON:", error);
             }
-
-            let speed = isRemoving ? 50 : 100;
-
-            if (!isRemoving && cIdx === current.length) {
-                isRemoving = true;
-                speed = 2000;
-            } else if (isRemoving && cIdx === 0) {
-                isRemoving = false;
-                pIdx = (pIdx + 1) % phrases.length;
-                speed = 500;
-            }
-
-            setTimeout(typeLoop, speed);
         }
 
-        // 2. LÓGICA DE COMPRA Y SONIDO
-        const audio = document.getElementById("click-sound");
-        const toast = document.getElementById("toast");
+        function renderProducts(products) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <div style="height:100px; background:rgba(0,0,0,0.2); border-radius:10px; margin-bottom:15px; display:flex; align-items:center; justify-content:center;">
+                        ${p.category}
+                    </div>
+                    <h3>${p.name}</h3>
+                    <p style="font-size:0.9rem; color:var(--text-dim);">${p.description}</p>
+                    <h4 style="color:var(--accent)">$${p.price.toFixed(2)}</h4>
+                    <button class="buy-btn" onclick="addToCart('${p.name}')">Añadir al Carrito</button>
+                </div>
+            `).join('');
+        }
 
-        function buyItem(name) {
-            // Reproducir sonido
+        // 2. LÓGICA DE CARRITO Y PERSISTENCIA (LocalStorage)
+        let cartCount = localStorage.getItem('eliteCart') ? parseInt(localStorage.getItem('eliteCart')) : 0;
+        document.getElementById('cart-count').innerText = cartCount;
+
+        function addToCart(name) {
+            // Sonido actualizado
+            const audio = document.getElementById("ecomm-sound");
             audio.currentTime = 0;
-            audio.play().catch(() => console.log("Interacción requerida para audio"));
+            audio.play().catch(() => {});
 
-            // Mostrar notificación
-            toast.textContent = `¡${name} añadido al carrito!`;
+            // Actualizar contador y LocalStorage
+            cartCount++;
+            document.getElementById('cart-count').innerText = cartCount;
+            localStorage.setItem('eliteCart', cartCount);
+
+            // Toast
+            const toast = document.getElementById("toast");
+            toast.innerText = `+1 ${name} añadido`;
             toast.style.display = "block";
-            
-            setTimeout(() => {
-                toast.style.display = "none";
-            }, 2500);
+            setTimeout(() => { toast.style.display = "none"; }, 2000);
         }
 
-        window.onload = typeLoop;
+        // 3. EFECTO TYPING (Simplificado para el ejemplo)
+        const phrases = ["Hardware Premium", "Entorno Profesional", "Elite Performance"];
+        let pIdx = 0;
+        function type() {
+            document.getElementById("typing-text").innerText = phrases[pIdx];
+            pIdx = (pIdx + 1) % phrases.length;
+            setTimeout(type, 3000);
+        }
+
+        window.onload = () => {
+            loadProducts();
+            type();
+        };
     </script>
 </body>
 </html>
