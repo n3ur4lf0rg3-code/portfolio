@@ -165,4 +165,17 @@
                     </div>
                 `).join('');
 
-            const total = cart
+            const total = cart.reduce((s, i) => s + i.price, 0);
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('active');
+            document.getElementById('overlay').style.display = 
+                document.getElementById('cart-modal').classList.contains('active') ? 'block' : 'none';
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
