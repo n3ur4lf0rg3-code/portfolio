@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Gear Shop | Shopping Experience</title>
-    <!-- Importamos Font Awesome para el icono de carrito -->
+    <title>Elite Gear Shop | UX Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -24,17 +23,25 @@
             background-size: cover;
         }
 
-        /* BOTÓN DE CARRITO FLOTANTE */
+        /* BOTÓN DE CARRITO CON ANIMACIÓN */
         .cart-trigger {
             position: fixed; top: 20px; right: 20px;
             background: var(--primary); color: white; border: none;
             width: 60px; height: 60px; border-radius: 50%;
             cursor: pointer; z-index: 1001; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-            transition: transform 0.2s;
         }
 
-        .cart-trigger:hover { transform: scale(1.1); }
+        /* Animación de vibración */
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            50% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .shake-active { animation: shake 0.4s ease-in-out; }
 
         .cart-badge {
             position: absolute; top: 0; right: 0;
@@ -43,68 +50,45 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
 
-        /* CONTENEDOR DE PRODUCTOS */
+        /* PRODUCTOS Y MODAL */
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        #product-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;
-        }
+        #product-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        
+        .product-card { background: var(--glass); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .buy-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 15px; }
 
-        .product-card {
-            background: var(--glass); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 25px;
-        }
-
-        .buy-btn {
-            background: var(--primary); color: white; border: none; padding: 12px;
-            border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 15px;
-        }
-
-        /* MODAL DEL CARRITO */
         #cart-modal {
             position: fixed; top: 0; right: -100%; width: 350px; height: 100vh;
-            background: #1e293b; transition: 0.4s; z-index: 1002;
-            padding: 30px; box-shadow: -10px 0 30px rgba(0,0,0,0.5); overflow-y: auto;
+            background: #1e293b; transition: 0.4s; z-index: 1002; padding: 30px; overflow-y: auto;
         }
-
         #cart-modal.active { right: 0; }
-
-        .cart-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 0; border-bottom: 1px solid var(--glass);
-        }
-
-        .remove-btn {
-            background: transparent; color: #ef4444; border: none; cursor: pointer; font-size: 1.1rem;
-        }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); display: none; z-index: 1000;
-        }
+        
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--glass); }
+        .remove-btn { background: transparent; color: #ef4444; border: none; cursor: pointer; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1000; }
     </style>
 </head>
 <body>
 
-    <!-- Icono de Carrito Flotante -->
-    <button class="cart-trigger" onclick="toggleCart()">
+    <button class="cart-trigger" id="cart-button" onclick="toggleCart()">
         <i class="fas fa-shopping-cart"></i>
         <span class="cart-badge" id="cart-count">0</span>
     </button>
 
     <header class="store-header">
         <h1>Elite Gear Shop</h1>
-        <p>Potencia tu flujo de trabajo con hardware premium</p>
+        <p>Selección de Hardware para Programadores</p>
     </header>
 
     <div class="container">
         <div id="product-container"></div>
     </div>
 
-    <!-- Modal Lateral -->
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
     <div id="cart-modal" id="cart-modal">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2>Tu Carrito</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+            <h2>Carrito</h2>
             <button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
         </div>
         <div id="cart-items-list"></div>
@@ -112,68 +96,68 @@
             <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem;">
                 <span>Total:</span> <span id="cart-total">$0.00</span>
             </div>
-            <button class="buy-btn" style="background:var(--accent); color:var(--bg);">Finalizar Compra</button>
+            <button class="buy-btn" style="background:var(--accent); color:var(--bg);">Proceder al Pago</button>
         </div>
     </div>
 
     <audio id="ecomm-sound" src="assets/ecomm.mp3"></audio>
 
     <script>
-        // Recuperamos el carrito o inicializamos uno vacío
         let cart = JSON.parse(localStorage.getItem('eliteCartItems')) || [];
 
-        async function loadProducts() {
+        async function init() {
             try {
-                const response = await fetch('products.json');
-                const data = await response.json();
-                const container = document.getElementById('product-container');
-                
-                container.innerHTML = data.products.map(p => `
-                    <div class="product-card">
-                        <h3>${p.name}</h3>
-                        <p style="color:var(--accent); font-weight:bold;">$${p.price.toFixed(2)}</p>
-                        <button class="buy-btn" onclick="addToCart('${p.name}', ${p.price})">Añadir al Carrito</button>
-                    </div>
-                `).join('');
+                const res = await fetch('products.json');
+                const data = await res.json();
+                render(data.products);
                 updateUI();
-            } catch (e) { console.error("Error al cargar JSON"); }
+            } catch (e) { console.error("Error al iniciar."); }
+        }
+
+        function render(products) {
+            document.getElementById('product-container').innerHTML = products.map(p => `
+                <div class="product-card">
+                    <h3>${p.name}</h3>
+                    <p style="color:var(--accent)">$${p.price.toFixed(2)}</p>
+                    <button class="buy-btn" onclick="addToCart('${p.name}', ${p.price})">Añadir al Carrito</button>
+                </div>
+            `).join('');
         }
 
         function addToCart(name, price) {
+            const btn = document.getElementById('cart-button');
             const audio = document.getElementById("ecomm-sound");
+            
+            // Sonido y Animación
             audio.currentTime = 0;
             audio.play().catch(() => {});
+            btn.classList.add('shake-active');
+            setTimeout(() => btn.classList.remove('shake-active'), 400);
 
-            // Creamos un ID único basado en el tiempo para poder eliminarlo después
-            const item = { id: Date.now(), name, price };
-            cart.push(item);
-            saveAndRefresh();
+            cart.push({ id: Date.now() + Math.random(), name, price });
+            sync();
         }
 
         function removeItem(id) {
-            cart = cart.filter(item => item.id !== id);
-            saveAndRefresh();
+            cart = cart.filter(i => i.id !== id);
+            sync();
         }
 
-        function saveAndRefresh() {
+        function sync() {
             localStorage.setItem('eliteCartItems', JSON.stringify(cart));
             updateUI();
         }
 
         function updateUI() {
-            // Actualizar badge del botón flotante
             document.getElementById('cart-count').innerText = cart.length;
-            
-            // Actualizar lista del modal
             const list = document.getElementById('cart-items-list');
-            const totalEl = document.getElementById('cart-total');
             
-            list.innerHTML = cart.length === 0 ? '<p>El carrito está vacío</p>' : 
+            list.innerHTML = cart.length === 0 ? '<p>Vacío</p>' : 
                 cart.map(item => `
                     <div class="cart-item">
                         <div>
-                            <div style="font-weight:bold;">${item.name}</div>
-                            <div style="font-size:0.8rem; color:var(--accent);">$${item.price.toFixed(2)}</div>
+                            <strong>${item.name}</strong><br>
+                            <small>$${item.price.toFixed(2)}</small>
                         </div>
                         <button class="remove-btn" onclick="removeItem(${item.id})">
                             <i class="fas fa-trash"></i>
@@ -181,18 +165,4 @@
                     </div>
                 `).join('');
 
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            totalEl.innerText = `$${total.toFixed(2)}`;
-        }
-
-        function toggleCart() {
-            const modal = document.getElementById('cart-modal');
-            const overlay = document.getElementById('overlay');
-            modal.classList.toggle('active');
-            overlay.style.display = modal.classList.contains('active') ? 'block' : 'none';
-        }
-
-        window.onload = loadProducts;
-    </script>
-</body>
-</html>
+            const total = cart
