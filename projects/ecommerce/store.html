@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Gear Shop | Hardware para Expertos</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --accent: #fbbf24;
+            --primary: #3b82f6;
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* HEADER DINÁMICO */
+        .store-header {
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
+                        url('../../images/fondo-hero.webp');
+            background-size: cover;
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .typing-container {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: bold;
+            min-height: 50px;
+        }
+
+        /* GRID DE PRODUCTOS */
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .buy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover { background: #2563eb; }
+
+        /* NOTIFICACIÓN */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: var(--bg);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: none;
+            z-index: 2000;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="store-header">
+        <h1>Elite Gear Shop</h1>
+        <div class="typing-container" id="typing-text"></div>
+    </header>
+
+    <div class="container">
+        <div class="product-grid">
+            <!-- Producto 1 -->
+            <div class="product-card">
+                <div class="product-image">IMG_PREVIEW</div>
+                <h3>Teclado Mecánico Pro</h3>
+                <p>Latencia cero para código fluido.</p>
+                <h4 style="color: var(--accent)">$189.00</h4>
+                <button class="buy-btn" onclick="buyItem('Teclado Pro')">Comprar Ahora</button>
+            </div>
+
+            <!-- Producto 2 -->
+            <div class="product-card">
+                <div class="product-image">IMG_PREVIEW</div>
+                <h3>Monitor Curvo 49"</h3>
+                <p>Visualiza todo tu stack a la vez.</p>
+                <h4 style="color: var(--accent)">$1,200.00</h4>
+                <button class="buy-btn" onclick="buyItem('Monitor Curvo')">Comprar Ahora</button>
+            </div>
+
+            <!-- Producto 3 -->
+            <div class="product-card">
+                <div class="product-image">IMG_PREVIEW</div>
+                <h3>Silla Ergo-Tech</h3>
+                <p>Soporte para sesiones de 12h+.</p>
+                <h4 style="color: var(--accent)">$450.00</h4>
+                <button class="buy-btn" onclick="buyItem('Silla Ergo')">Comprar Ahora</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <!-- Audio del sistema -->
+    <audio id="click-sound" src="assets/click.mp3"></audio>
+
+    <script>
+        // 1. EFECTO DE ESCRITURA INFINITO
+        const phrases = [
+            "Equipamiento para Arquitectos de Software",
+            "Hardware que potencia tu Lógica",
+            "Herramientas de Alto Rendimiento",
+            "Optimiza tu Estación de Trabajo"
+        ];
+        
+        let pIdx = 0;
+        let cIdx = 0;
+        let isRemoving = false;
+        const target = document.getElementById("typing-text");
+
+        function typeLoop() {
+            const current = phrases[pIdx];
+            if (isRemoving) {
+                target.textContent = current.substring(0, cIdx - 1);
+                cIdx--;
+            } else {
+                target.textContent = current.substring(0, cIdx + 1);
+                cIdx++;
+            }
+
+            let speed = isRemoving ? 50 : 100;
+
+            if (!isRemoving && cIdx === current.length) {
+                isRemoving = true;
+                speed = 2000;
+            } else if (isRemoving && cIdx === 0) {
+                isRemoving = false;
+                pIdx = (pIdx + 1) % phrases.length;
+                speed = 500;
+            }
+
+            setTimeout(typeLoop, speed);
+        }
+
+        // 2. LÓGICA DE COMPRA Y SONIDO
+        const audio = document.getElementById("click-sound");
+        const toast = document.getElementById("toast");
+
+        function buyItem(name) {
+            // Reproducir sonido
+            audio.currentTime = 0;
+            audio.play().catch(() => console.log("Interacción requerida para audio"));
+
+            // Mostrar notificación
+            toast.textContent = `¡${name} añadido al carrito!`;
+            toast.style.display = "block";
+            
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 2500);
+        }
+
+        window.onload = typeLoop;
+    </script>
+</body>
+</html>
