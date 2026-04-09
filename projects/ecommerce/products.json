@@ -1,32 +1,13 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Teclado Mecánico Pro",
-      "description": "Latencia cero para código fluido.",
-      "price": 189.00,
-      "category": "Periféricos"
+      "id": 1, "name": "Teclado Mecánico Pro", "price": 189.00, "stock": 5, "category": "Hardware"
     },
     {
-      "id": 2,
-      "name": "Monitor Curvo 49\"",
-      "description": "Visualiza todo tu stack a la vez.",
-      "price": 1200.00,
-      "category": "Visualización"
+      "id": 2, "name": "Monitor Curvo 49\"", "price": 1200.00, "stock": 2, "category": "Visualización"
     },
     {
-      "id": 3,
-      "name": "Silla Ergo-Tech",
-      "description": "Soporte para sesiones de 12h+.",
-      "price": 450.00,
-      "category": "Mobiliario"
-    },
-    {
-      "id": 4,
-      "name": "MacBook Pro M3",
-      "description": "Potencia bruta para compilación.",
-      "price": 2499.00,
-      "category": "Laptops"
+      "id": 3, "name": "Silla Ergo-Tech", "price": 450.00, "stock": 10, "category": "Mobiliario"
     }
   ]
 }
