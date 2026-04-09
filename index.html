@@ -3,156 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Elite | Consultoría & Software</title>
+    <title>Portfolio Senior | Estrategia & Desarrollo</title>
     <style>
-        /* CONFIGURACIÓN ESTÉTICA AVANZADA */
+        /* MANTENIENDO TU ESTRUCTURA Y COLORES ORIGINALES */
         :root {
-            --primary: #020617;
+            --primary: #0f172a;
             --secondary: #3b82f6;
-            --accent: #10b981; /* Verde esmeralda para éxito */
-            --glass: rgba(255, 255, 255, 0.05);
-            --text-p: #94a3b8;
+            --accent: #fbbf24;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             background-color: var(--primary);
-            color: #f8fafc;
+            color: var(--text-main);
             margin: 0;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: var(--secondary);
+            width: 0%;
+            z-index: 1000;
+        }
 
-        /* ESTILO GLASSMORPHISM REFORZADO */
-        .glass-panel {
+        .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem 0;
         }
 
-        /* ANIMACIÓN DE TESTIMONIOS */
-        #testimonial-container {
-            height: 120px;
+        header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+        }
+
+        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
+        .highlight { color: var(--secondary); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+
+        /* ESTILOS PARA LAS NUEVAS RECOMENDACIONES */
+        #testimonial-text {
+            transition: opacity 0.5s ease;
+            font-style: italic;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            font-style: italic;
-            transition: opacity 0.5s ease;
         }
 
-        /* FORMULARIO DINÁMICO */
-        .form-group { margin-bottom: 1.5rem; }
         input, textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #334155;
+            margin-top: 8px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--text-dim);
             color: white;
             border-radius: 8px;
             box-sizing: border-box;
         }
-        input:focus { border-color: var(--secondary); outline: none; }
-        
+
         .btn-submit {
-            background: #334155;
-            color: #94a3b8;
+            margin-top: 20px;
             padding: 12px 24px;
             border: none;
             border-radius: 8px;
+            background: #334155;
+            color: var(--text-dim);
             cursor: not-allowed;
             transition: 0.3s;
+            width: 100%;
+            font-weight: bold;
         }
+
         .btn-submit.active {
             background: var(--secondary);
             color: white;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
         }
 
-        .status-msg { font-size: 0.8rem; margin-top: 5px; display: block; }
+        /* TABS Y OTROS ELEMENTOS PREVIOS */
+        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .tab-btn {
+            background: none; border: 1px solid var(--secondary);
+            color: var(--text-main); padding: 0.8rem 1.5rem;
+            cursor: pointer; border-radius: 8px; transition: 0.3s;
+        }
+        .tab-btn.active { background: var(--secondary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- CABECERA -->
-        <header style="padding: 100px 0; text-align: center;">
-            <h1 style="font-size: 3rem; margin-bottom: 10px;">Ingeniería de <span style="color:var(--secondary)">Software</span></h1>
-            <p style="color: var(--text-p)">Código robusto para desafíos globales.</p>
-        </header>
+    <div id="progress-bar"></div>
 
-        <!-- SECCIÓN: TESTIMONIOS DINÁMICOS -->
-        <section class="glass-panel">
-            <h2 style="text-align: center; font-size: 1rem; color: var(--secondary); letter-spacing: 2px;">OPINIONES DE CLIENTES</h2>
-            <div id="testimonial-container">
-                <p id="testimonial-text">"Excelente profesionalismo y entrega a tiempo."</p>
+    <header>
+        <h1 id="hero-title"></h1>
+        <p style="font-size: 1.2rem; color: var(--text-dim);">Arquitectura de Software & Experiencias Digitales</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECCIÓN SOBRE MÍ -->
+        <section class="glass-card">
+            <h2 class="highlight">Estrategia y Visión</h2>
+            <p>Con más de 5 años transformando ideas en productos digitales, mi enfoque combina la rigurosidad técnica con una experiencia de usuario excepcional.</p>
+        </section>
+
+        <!-- NUEVA RECOMENDACIÓN: TESTIMONIOS ANIMADOS -->
+        <section class="glass-card" style="text-align: center;">
+            <h3 style="color: var(--accent); font-size: 0.9rem; letter-spacing: 2px;">TESTIMONIOS</h3>
+            <div id="testimonial-text">"Cargando opiniones de clientes..."</div>
+        </section>
+
+        <!-- SERVICIOS DINÁMICOS -->
+        <section id="servicios">
+            <h2>Especialidades</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'dev')">Desarrollo</button>
+                <button class="tab-btn" onclick="openTab(event, 'ui')">Diseño UI/UX</button>
+            </div>
+
+            <div id="dev" class="tab-content active glass-card">
+                <h3>Desarrollo FullStack</h3>
+                <p>Implementación de arquitecturas robustas usando Python y React.</p>
+            </div>
+            <div id="ui" class="tab-content glass-card">
+                <h3>Interfaces de Alto Impacto</h3>
+                <p>Diseño centrado en el usuario y prototipos de alta fidelidad.</p>
             </div>
         </section>
 
-        <!-- SECCIÓN: CONTACTO E INTERACCIÓN -->
-        <section class="glass-panel">
-            <h2>Hablemos de tu proyecto</h2>
+        <!-- NUEVA RECOMENDACIÓN: FORMULARIO INTERACTIVO -->
+        <section id="contacto" class="glass-card">
+            <h2 class="highlight">Iniciar un Proyecto</h2>
             <form id="contact-form">
-                <div class="form-group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" id="user-email" placeholder="ejemplo@correo.com">
-                    <span id="email-hint" class="status-msg"></span>
+                <div style="margin-bottom: 15px;">
+                    <label>Tu Email:</label>
+                    <input type="email" id="user-email" placeholder="nombre@correo.com">
                 </div>
-                <div class="form-group">
-                    <label>Mensaje</label>
-                    <textarea id="user-msg" rows="4" placeholder="¿En qué puedo ayudarte?"></textarea>
+                <div>
+                    <label>Mensaje:</label>
+                    <textarea id="user-msg" rows="4" placeholder="Cuéntame sobre tu idea..."></textarea>
                 </div>
-                <button type="button" id="submit-btn" class="btn-submit">Enviar Propuesta</button>
+                <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Propuesta</button>
             </form>
         </section>
+
     </div>
 
     <script>
-        /* 1. LÓGICA DE TESTIMONIOS (ARRAY DINÁMICO) */
+        // 1. ESCRITURA AUTOMÁTICA (EXISTENTE)
+        const titulo = "Soluciones Digitales de Alto Nivel";
+        let index = 0;
+        function typeHero() {
+            if (index < titulo.length) {
+                document.getElementById("hero-title").innerHTML += titulo.charAt(index);
+                index++;
+                setTimeout(typeHero, 50);
+            }
+        }
+
+        // 2. BARRA DE PROGRESO (EXISTENTE)
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // 3. LÓGICA DE TESTIMONIOS (NUEVA)
         const testimonios = [
-            "\"La mejor inversión en desarrollo para nuestra startup.\" - CEO TechFlow",
-            "\"Arquitectura limpia y escalable. Altamente recomendado.\" - Lead Dev Global",
-            "\"Capacidad analítica excepcional para problemas complejos.\" - Director Innovación"
+            "\"La mejor inversión en desarrollo para nuestra startup.\" - Tech CEO",
+            "\"Arquitectura limpia y escalable. Muy profesional.\" - CTO Global",
+            "\"Resolvió problemas complejos con soluciones simples.\" - Product Manager"
         ];
         let tIndex = 0;
-
         function rotarTestimonios() {
             const el = document.getElementById("testimonial-text");
-            el.style.opacity = 0; // Efecto de desvanecimiento
-            
+            el.style.opacity = 0;
             setTimeout(() => {
                 tIndex = (tIndex + 1) % testimonios.length;
                 el.innerText = testimonios[tIndex];
                 el.style.opacity = 1;
             }, 500);
         }
-        setInterval(rotarTestimonios, 4000); // Cambia cada 4 segundos
+        setInterval(rotarTestimonios, 4000);
 
-        /* 2. VALIDACIÓN DE FORMULARIO EN TIEMPO REAL */
+        // 4. VALIDACIÓN DE FORMULARIO (NUEVA)
         const emailInput = document.getElementById("user-email");
         const msgInput = document.getElementById("user-msg");
         const submitBtn = document.getElementById("submit-btn");
-        const hint = document.getElementById("email-hint");
 
-        function validar() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isEmailValid = emailRegex.test(emailInput.value);
-            const isMsgValid = msgInput.value.length > 10;
+        function validarFormulario() {
+            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+            const msgValido = msgInput.value.trim().length > 10;
 
-            if (isEmailValid) {
-                hint.innerText = "Correo válido ✓";
-                hint.style.color = "var(--accent)";
-            } else {
-                hint.innerText = "Introduce un correo real";
-                hint.style.color = "#ef4444";
-            }
-
-            if (isEmailValid && isMsgValid) {
+            if (emailValido && msgValido) {
                 submitBtn.classList.add("active");
                 submitBtn.disabled = false;
             } else {
@@ -161,20 +226,35 @@
             }
         }
 
-        emailInput.addEventListener("input", validar);
-        msgInput.addEventListener("input", validar);
+        emailInput.addEventListener("input", validarFormulario);
+        msgInput.addEventListener("input", validarFormulario);
 
-        /* 3. SIMULACIÓN DE ENVÍO */
         submitBtn.addEventListener("click", () => {
-            submitBtn.innerText = "¡Mensaje Enviado!";
-            submitBtn.style.background = "var(--accent)";
-            document.getElementById("contact-form").reset();
+            submitBtn.innerText = "¡Mensaje Enviado con Éxito!";
+            submitBtn.style.background = "var(--success)";
             setTimeout(() => {
                 submitBtn.innerText = "Enviar Propuesta";
-                submitBtn.classList.remove("active");
-                validar();
+                submitBtn.style.background = "var(--secondary)";
+                document.getElementById("contact-form").reset();
+                validarFormulario();
             }, 3000);
         });
+
+        // 5. TABS (EXISTENTE)
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        window.onload = () => {
+            typeHero();
+            rotarTestimonios();
+        };
     </script>
 </body>
 </html>
