@@ -3,146 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Interactivo | UX & Code</title>
-    
+    <title>Portfolio Senior | Estrategia & Desarrollo</title>
     <style>
-        /* CSS3: Diseño y Variables de Color */
+        /* VARIABLES Y ESTILO GLOBAL */
         :root {
-            --primario: #2563eb;
-            --fondo: #ffffff;
-            --texto: #1f2937;
-            --tarjeta: #f3f4f6;
-        }
-
-        [data-theme="dark"] {
-            --fondo: #111827;
-            --texto: #f9fafb;
-            --tarjeta: #1f2937;
+            --primary: #0f172a;
+            --secondary: #3b82f6;
+            --accent: #fbbf24;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--fondo);
-            color: var(--texto);
-            transition: 0.3s;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--primary);
+            color: var(--text-main);
             margin: 0;
-            line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
-        nav { padding: 20px; text-align: right; }
-        
+        /* BARRA DE PROGRESO */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: var(--secondary);
+            width: 0%;
+            z-index: 1000;
+        }
+
+        /* DISEÑO DE CRISTAL (GLASSMORPHISM) */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
         header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 80px 20px;
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
         }
 
-        .cursor { border-right: 3px solid var(--primario); animation: parpadeo 0.7s infinite; }
-        @keyframes parpadeo { 50% { border-color: transparent; } }
+        h1 { font-size: 3.5rem; margin-bottom: 0.5rem; }
+        .highlight { color: var(--secondary); }
 
-        .filtro-container { text-align: center; margin-bottom: 30px; }
-        
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background: var(--primario);
-            color: white;
-        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
+        /* INTERACCIÓN: TABS DE SERVICIOS */
+        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .tab-btn {
+            background: none; border: 1px solid var(--secondary);
+            color: var(--text-main); padding: 0.8rem 1.5rem;
+            cursor: pointer; border-radius: 8px; transition: 0.3s;
         }
+        .tab-btn.active { background: var(--secondary); }
+        .tab-content { display: none; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
 
-        .card {
-            background: var(--tarjeta);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+        /* CALCULADORA INTERACTIVA */
+        .calc-box { background: #1e293b; padding: 2rem; border-radius: 12px; }
+        select { width: 100%; padding: 10px; margin-top: 10px; background: #0f172a; color: white; border: 1px solid var(--secondary); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <nav>
-        <button onclick="toggleTema()">Cambiar Color 🌓</button>
-    </nav>
+    <div id="progress-bar"></div>
 
     <header>
-        <h1>Hola, soy <span id="escritura" class="cursor"></span></h1>
-        <p>Especialista en interfaces dinámicas y código limpio.</p>
+        <h1 id="hero-title"></h1>
+        <p style="font-size: 1.2rem; color: var(--text-dim);">Arquitectura de Software & Experiencias Digitales</p>
+        <a href="#contacto" class="tab-btn" style="text-decoration: none; margin-top: 2rem;">Iniciar Proyecto</a>
     </header>
 
-    <main>
-        <div class="filtro-container">
-            <button onclick="renderizar('todos')">Todos</button>
-            <button onclick="renderizar('web')">Web</button>
-            <button onclick="renderizar('app')">Apps</button>
-        </div>
-
-        <section id="proyectos-grid" class="grid">
-            <!-- JavaScript inyectará el contenido aquí -->
+    <div class="container">
+        
+        <!-- SECCIÓN SOBRE MÍ CON MÁS TEXTO -->
+        <section id="sobre-mi" class="glass-card">
+            <h2 class="highlight">Estrategia y Visión</h2>
+            <p>Con más de 5 años transformando ideas en productos digitales, mi enfoque combina la rigurosidad técnica con una experiencia de usuario excepcional. No solo escribo código; diseño soluciones que escalan y resuelven problemas reales de negocio.</p>
         </section>
-    </main>
+
+        <!-- INTERACCIÓN: SERVICIOS DINÁMICOS -->
+        <section id="servicios">
+            <h2>Especialidades</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'dev')">Desarrollo</button>
+                <button class="tab-btn" onclick="openTab(event, 'ui')">Diseño UI/UX</button>
+                <button class="tab-btn" onclick="openTab(event, 'cons')">Consultoría</button>
+            </div>
+
+            <div id="dev" class="tab-content active glass-card">
+                <h3>Desarrollo FullStack</h3>
+                <p>Implementación de arquitecturas robustas usando Python, Node.js y React. Enfoque en seguridad, velocidad de carga y optimización de bases de datos.</p>
+            </div>
+            <div id="ui" class="tab-content glass-card">
+                <h3>Interfaces de Alto Impacto</h3>
+                <p>Diseño centrado en el usuario. Creación de prototipos de alta fidelidad que garantizan una navegación fluida y una estética moderna.</p>
+            </div>
+            <div id="cons" class="tab-content glass-card">
+                <h3>Consultoría Técnica</h3>
+                <p>Auditoría de código, optimización de flujos de trabajo en la nube y transformación digital para empresas que buscan modernizar su stack tecnológico.</p>
+            </div>
+        </section>
+
+        <!-- INTERACCIÓN: CALCULADORA DE PROYECTO -->
+        <section id="calculadora" class="glass-card">
+            <h2 class="highlight">Simulador de Proyecto</h2>
+            <p>Selecciona el tipo de solución que necesitas para ver una estimación inicial:</p>
+            <div class="calc-box">
+                <label>Tipo de Proyecto:</label>
+                <select id="tipo-proyecto" onchange="calcular()">
+                    <option value="0">Seleccionar...</option>
+                    <option value="40">Landing Page (Simple)</option>
+                    <option value="120">E-commerce Completo (Complejo)</option>
+                    <option value="80">Aplicación Corporativa (Media)</option>
+                </select>
+                <p id="resultado-calc" style="margin-top: 1.5rem; font-weight: bold;"></p>
+            </div>
+        </section>
+
+    </div>
 
     <script>
-        // DOCUMENTACIÓN: Lógica Dinámica de Cliente
-        
-        // 1. Efecto de escritura automática
-        const textoFrase = "Desarrollador FullStack";
-        let i = 0;
-        function escribirEfecto() {
-            if (i < textoFrase.length) {
-                document.getElementById("escritura").innerHTML += textoFrase.charAt(i);
-                i++;
-                setTimeout(escribirEfecto, 100);
+        // 1. Efecto de escritura profesional
+        const titulo = "Soluciones Digitales de Alto Nivel";
+        let index = 0;
+        function typeHero() {
+            if (index < titulo.length) {
+                document.getElementById("hero-title").innerHTML += titulo.charAt(index);
+                index++;
+                setTimeout(typeHero, 50);
             }
         }
 
-        // 2. Datos de Proyectos (Simulando una base de datos)
-        const misProyectos = [
-            { titulo: "E-Commerce", cat: "web", desc: "Plataforma de ventas online." },
-            { titulo: "Dashboard AI", cat: "app", desc: "Panel de control inteligente." },
-            { titulo: "Blog Personal", cat: "web", desc: "Sitio optimizado para SEO." }
-        ];
+        // 2. Barra de progreso de lectura
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
 
-        // 3. Función de renderizado dinámico
-        function renderizar(categoria) {
-            const grid = document.getElementById("proyectos-grid");
-            grid.innerHTML = ""; // Limpiar grid
-
-            const filtrados = categoria === 'todos' 
-                ? misProyectos 
-                : misProyectos.filter(p => p.cat === categoria);
-
-            filtrados.forEach(p => {
-                grid.innerHTML += `
-                    <div class="card">
-                        <h3>${p.titulo}</h3>
-                        <p>${p.desc}</p>
-                        <strong>#${p.cat}</strong>
-                    </div>
-                `;
-            });
+        // 3. Lógica de TABS
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
         }
 
-        // 4. Control de Modo Oscuro
-        function toggleTema() {
-            const body = document.body;
-            const actual = body.getAttribute("data-theme");
-            body.setAttribute("data-theme", actual === "dark" ? "light" : "dark");
+        // 4. Lógica del Simulador
+        function calcular() {
+            const horas = document.getElementById("tipo-proyecto").value;
+            const output = document.getElementById("resultado-calc");
+            if (horas > 0) {
+                output.innerHTML = `Estimación: Aproximadamente ${horas} horas de desarrollo especializado.`;
+                output.style.color = "var(--accent)";
+            } else {
+                output.innerHTML = "";
+            }
         }
 
-        // Iniciar al cargar la página
         window.onload = () => {
-            escribirEfecto();
-            renderizar('todos');
+            typeHero();
         };
     </script>
 </body>
