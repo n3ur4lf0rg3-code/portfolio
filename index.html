@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Senior | Desarrollo & Estrategia</title>
+    <title>Portfolio Senior | FullStack Developer</title>
     <style>
-        /* 1. CONFIGURACIÓN DE VARIABLES Y ESTILOS BASE */
         :root {
             --primary: #0f172a;
             --secondary: #3b82f6;
             --accent: #fbbf24;
-            --success: #10b981;
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
             --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--primary);
             color: var(--text-main);
             margin: 0;
             scroll-behavior: smooth;
         }
 
-        /* 2. COMPONENTES VISUALES */
+        /* BARRA DE PROGRESO */
         #progress-bar {
             position: fixed;
             top: 0; left: 0;
@@ -34,14 +32,13 @@
             z-index: 1000;
         }
 
+        /* HEADER */
         header {
-            height: 80vh;
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            /* RUTA LOCAL PARA IMAGEN DE FONDO */
             background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
                         url('images/fondo-hero.webp');
             background-size: cover;
@@ -56,35 +53,44 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 2rem;
-            margin: 1rem 0;
+            margin: 2rem 0;
         }
 
-        .img-display {
+        .img-fluid {
             width: 100%;
             border-radius: 12px;
-            margin-top: 1.5rem;
+            margin-bottom: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* 3. INTERACTIVIDAD (TABS Y BOTONES) */
-        .tab-buttons { display: flex; gap: 1rem; margin-bottom: 1rem; }
-        .tab-btn {
-            background: none; border: 1px solid var(--secondary);
-            color: var(--text-main); padding: 0.8rem 1.5rem;
-            cursor: pointer; border-radius: 8px; transition: 0.3s;
+        /* FORMULARIO Y NUEVA IMAGEN */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
         }
-        .tab-btn.active { background: var(--secondary); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        input, textarea {
+            width: 100%; padding: 12px; margin-bottom: 1rem;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--text-dim);
+            color: white; border-radius: 8px; box-sizing: border-box;
+        }
 
         .btn-submit {
-            margin-top: 20px; padding: 12px 24px; border: none;
-            border-radius: 8px; background: #334155;
-            color: var(--text-dim); cursor: not-allowed; width: 100%; font-weight: bold;
+            padding: 12px 24px; border: none; border-radius: 8px;
+            background: #334155; color: var(--text-dim);
+            cursor: not-allowed; width: 100%; font-weight: bold;
+            transition: 0.3s;
         }
-        .btn-submit.active { background: var(--secondary); color: white; cursor: pointer; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-submit.active {
+            background: var(--secondary); color: white; cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -92,68 +98,59 @@
     <div id="progress-bar"></div>
 
     <header>
-        <h1 id="hero-title"></h1>
-        <p style="font-size: 1.2rem; color: var(--text-dim);">Soluciones de Software Escalables</p>
+        <h1 id="hero-title" style="font-size: 3rem; margin: 0;"></h1>
+        <p style="color: var(--accent);">Innovación a través del Código</p>
     </header>
 
     <div class="container">
         
-        <!-- SECCIÓN: STACK TECNOLÓGICO -->
+        <!-- SECCIÓN: TECNOLOGÍAS -->
         <section class="glass-card">
-            <h2 style="color: var(--secondary);">Ecosistema de Desarrollo</h2>
-            <p>Especialista en arquitecturas modernas que priorizan el rendimiento y la seguridad.</p>
-            <img src="images/tecnologias.webp" alt="Stack Tecnológico" class="img-display">
+            <h2>Stack Tecnológico</h2>
+            <img src="images/tecnologias.webp" alt="Tecnologías" class="img-fluid">
+            <p>Dominio de herramientas modernas para soluciones escalables.</p>
         </section>
 
-        <!-- SECCIÓN: TESTIMONIOS DINÁMICOS -->
-        <section class="glass-card" style="text-align: center;">
-            <div id="testimonial-display" style="font-style: italic; color: var(--accent); min-height: 50px;"></div>
-        </section>
-
-        <!-- SECCIÓN: ESPECIALIDADES CON TABS -->
-        <section id="especialidades">
-            <h2>Especialidades</h2>
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="switchTab(event, 'sistemas')">Sistemas</button>
-                <button class="tab-btn" onclick="switchTab(event, 'interfaz')">Interfaz</button>
-            </div>
-
-            <div id="sistemas" class="tab-content active glass-card">
-                <h3>Ingeniería de Backend</h3>
-                <p>Construcción de APIs robustas y gestión eficiente de flujos de datos complejos.</p>
-            </div>
-            <div id="interfaz" class="tab-content glass-card">
-                <h3>Experiencia de Usuario</h3>
-                <p>Diseño de tableros de control intuitivos y analítica visual avanzada.</p>
-                <img src="images/dashboard.webp" alt="Diseño de Interfaz" class="img-display">
-            </div>
-        </section>
-
-        <!-- SECCIÓN: CONTACTO CON VALIDACIÓN -->
+        <!-- SECCIÓN: PROYECTOS/UI -->
         <section class="glass-card">
-            <h2 style="color: var(--secondary);">Hablemos de tu próximo paso</h2>
-            <form id="contact-form">
-                <input type="email" id="email-field" placeholder="correo@ejemplo.com" style="width:100%; padding:12px; margin-bottom:10px; background:rgba(0,0,0,0.2); border:1px solid var(--text-dim); color:white; border-radius:8px; box-sizing:border-box;">
-                <textarea id="msg-field" rows="4" placeholder="Describe tu visión..." style="width:100%; padding:12px; background:rgba(0,0,0,0.2); border:1px solid var(--text-dim); color:white; border-radius:8px; box-sizing:border-box;"></textarea>
-                <button type="button" id="form-btn" class="btn-submit" disabled>Enviar Propuesta</button>
-            </form>
+            <h2>Interfaces de Usuario</h2>
+            <img src="images/dashboard.webp" alt="UI Dashboard" class="img-fluid">
+            <p>Diseño centrado en la usabilidad y la estética profesional.</p>
+        </section>
+
+        <!-- SECCIÓN: CONTACTO (CON LA NUEVA IMAGEN) -->
+        <section class="glass-card">
+            <h2 style="color: var(--secondary);">¿Listo para construir?</h2>
+            <div class="contact-grid">
+                <div>
+                    <!-- NUEVA IMAGEN DE CONTACTO -->
+                    <img src="images/contacto.webp" alt="Let's Build" class="img-fluid">
+                </div>
+                <div>
+                    <form id="contact-form">
+                        <input type="email" id="email" placeholder="tu@email.com">
+                        <textarea id="message" rows="5" placeholder="Cuéntame sobre tu proyecto..."></textarea>
+                        <button type="button" id="submit-btn" class="btn-submit" disabled>Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
         </section>
 
     </div>
 
     <script>
-        // 1. EFECTO DE ESCRITURA
-        const phrase = "Arquitectura de Software Profesional";
-        let charIndex = 0;
+        // EFECTO DE ESCRITURA
+        const text = "Desarrollo Digital de Élite";
+        let i = 0;
         function typeWriter() {
-            if (charIndex < phrase.length) {
-                document.getElementById("hero-title").innerHTML += phrase.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeWriter, 60);
+            if (i < text.length) {
+                document.getElementById("hero-title").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 80);
             }
         }
 
-        // 2. BARRA DE PROGRESO DE SCROLL
+        // BARRA DE PROGRESO
         window.onscroll = () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -161,58 +158,27 @@
             document.getElementById("progress-bar").style.width = scrolled + "%";
         };
 
-        // 3. CARRUSEL DE TESTIMONIOS
-        const quotes = [
-            "\"Un enfoque técnico impecable y escalable.\" - Tech Lead",
-            "\"Diseño que realmente entiende al usuario final.\" - Product Owner",
-            "\"Eficiencia total en la resolución de problemas complejos.\" - CTO"
-        ];
-        let qIndex = 0;
-        function rotateQuotes() {
-            const el = document.getElementById("testimonial-display");
-            el.style.opacity = 0;
-            setTimeout(() => {
-                qIndex = (qIndex + 1) % quotes.length;
-                el.innerText = quotes[qIndex];
-                el.style.opacity = 1;
-            }, 500);
-        }
-        setInterval(rotateQuotes, 4500);
-
-        // 4. LÓGICA DE VALIDACIÓN DE FORMULARIO
-        const emailInput = document.getElementById("email-field");
-        const msgInput = document.getElementById("msg-field");
-        const submitBtn = document.getElementById("form-btn");
+        // VALIDACIÓN DE FORMULARIO
+        const email = document.getElementById("email");
+        const message = document.getElementById("message");
+        const btn = document.getElementById("submit-btn");
 
         function validate() {
-            const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
-            const validMsg = msgInput.value.trim().length > 15;
-            if (validEmail && validMsg) {
-                submitBtn.classList.add("active");
-                submitBtn.disabled = false;
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+            const isMsg = message.value.trim().length > 10;
+            if (isEmail && isMsg) {
+                btn.classList.add("active");
+                btn.disabled = false;
             } else {
-                submitBtn.classList.remove("active");
-                submitBtn.disabled = true;
+                btn.classList.remove("active");
+                btn.disabled = true;
             }
         }
-        emailInput.addEventListener("input", validate);
-        msgInput.addEventListener("input", validate);
 
-        // 5. NAVEGACIÓN POR TABS
-        function switchTab(evt, name) {
-            let i, contents, links;
-            contents = document.getElementsByClassName("tab-content");
-            for (i = 0; i < contents.length; i++) contents[i].classList.remove("active");
-            links = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < links.length; i++) links[i].classList.remove("active");
-            document.getElementById(name).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
+        email.addEventListener("input", validate);
+        message.addEventListener("input", validate);
 
-        window.onload = () => {
-            typeWriter();
-            rotateQuotes();
-        };
+        window.onload = typeWriter;
     </script>
 </body>
 </html>
