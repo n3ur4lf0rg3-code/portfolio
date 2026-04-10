@@ -190,3 +190,28 @@
     <div class="display-bar">
         Mostrando 
         <select id="items-per-page" onchange="changePerPage()">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        de <span id="total-products">100</span> productos
+    </div>
+
+    <div class="grid-container">
+        <div class="product-grid" id="product-container">
+            </div>
+    </div>
+
+    <button class="cart-trigger" onclick="toggleCartModal()">
+        <i class="fas fa-shopping-basket"></i>
+    </button>
+
+    <audio id="ecomm-sound" src="assets/ecomm.mp3"></audio>
+
+    <script>
+        // ... Lógica JavaScript para cargar JSON y renderizar ...
+        // Asegúrate de usar las clases CSS correctas (.glass-card, etc.) en el renderizado
+    </script>
+</body>
+</html>
