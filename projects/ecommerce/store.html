@@ -16,14 +16,49 @@
 
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; }
 
-        /* HEADER */
         .store-header {
             padding: 60px 20px; text-align: center;
-            background: linear-gradient(rgba(15,23,42,0.9), rgba(15,23,42,0.9)), url('../../images/fondo-hero.webp');
-            background-size: cover;
+            background: linear-gradient(rgba(15,23,42,0.9), rgba(15,23,42,0.9));
         }
 
-        /* BOTÓN DE CARRITO CON ANIMACIÓN */
+        /* --- MÓDULO DE SCROLL PROFESIONAL --- */
+        #product-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 30px;
+            max-height: 65vh; /* Altura fija para activar scroll */
+            overflow-y: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* Estilizado de la barra de scroll (Webkit) */
+        #product-container::-webkit-scrollbar { width: 8px; }
+        #product-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        #product-container::-webkit-scrollbar-thumb { 
+            background: var(--primary); 
+            border-radius: 10px; 
+        }
+
+        /* --- SELECTOR DE PAGINACIÓN --- */
+        .pagination-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 20px;
+            gap: 10px;
+        }
+
+        .pagination-bar select {
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px;
+            border-radius: 8px;
+            outline: none;
+        }
+
         .cart-trigger {
             position: fixed; top: 20px; right: 20px;
             background: var(--primary); color: white; border: none;
@@ -32,15 +67,12 @@
             display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
         }
 
-        /* Animación de vibración */
         @keyframes shake {
             0% { transform: rotate(0deg); }
             25% { transform: rotate(15deg); }
             50% { transform: rotate(-15deg); }
-            75% { transform: rotate(15deg); }
             100% { transform: rotate(0deg); }
         }
-
         .shake-active { animation: shake 0.4s ease-in-out; }
 
         .cart-badge {
@@ -50,12 +82,8 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
 
-        /* PRODUCTOS Y MODAL */
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        #product-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
         .product-card { background: var(--glass); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); }
-        
         .buy-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 15px; }
 
         #cart-modal {
@@ -63,7 +91,6 @@
             background: #1e293b; transition: 0.4s; z-index: 1002; padding: 30px; overflow-y: auto;
         }
         #cart-modal.active { right: 0; }
-        
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--glass); }
         .remove-btn { background: transparent; color: #ef4444; border: none; cursor: pointer; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1000; }
@@ -78,17 +105,28 @@
 
     <header class="store-header">
         <h1>Elite Gear Shop</h1>
-        <p>Selección de Hardware para Programadores</p>
+        <p>Catálogo Premium (100+ Artículos)</p>
     </header>
 
     <div class="container">
+        <!-- Barra de control modular -->
+        <div class="pagination-bar">
+            <label for="view-count">Mostrar:</label>
+            <select id="view-count" onchange="updateViewCount()">
+                <option value="5">5 productos</option>
+                <option value="10" selected>10 productos</option>
+                <option value="50">50 productos</option>
+                <option value="100">Ver todos</option>
+            </select>
+        </div>
+
         <div id="product-container"></div>
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
-    <div id="cart-modal" id="cart-modal">
+    <div id="cart-modal">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-            <h2>Carrito</h2>
+            <h2>Tu Inventario</h2>
             <button onclick="toggleCart()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
         </div>
         <div id="cart-items-list"></div>
@@ -96,138 +134,131 @@
             <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem;">
                 <span>Total:</span> <span id="cart-total">$0.00</span>
             </div>
-            <button class="buy-btn" style="background:var(--accent); color:var(--bg);">Proceder al Pago</button>
+            <button class="buy-btn" style="background:var(--accent); color:var(--bg);">Finalizar Orden</button>
         </div>
     </div>
 
     <audio id="ecomm-sound" src="assets/ecomm.mp3"></audio>
 
     <script>
-    // Recuperamos el carrito. Ahora es una lista de objetos con propiedad 'quantity'
-    let cart = JSON.parse(localStorage.getItem('eliteCartItems')) || [];
-    let productsData = []; // Referencia global para validar stock
+        let allProducts = []; // Almacén de los 100 artículos
+        let cart = JSON.parse(localStorage.getItem('eliteCartItems')) || [];
+        let displayLimit = 10; // Límite por defecto
 
-    async function init() {
-        try {
-            // Carga de datos externa
-            const res = await fetch('products.json');
-            const data = await res.json();
-            productsData = data.products; 
-            
-            render(productsData);
-            updateUI();
-        } catch (e) {
-            console.error("Error al inicializar la base de datos de productos.");
-        }
-    }
-
-    // Renderizado respetando tu diseño original
-    function render(products) {
-        const container = document.getElementById('product-container');
-        container.innerHTML = products.map(p => {
-            // Calculamos disponibilidad localmente
-            const itemInCart = cart.find(item => item.id === p.id);
-            const currentQty = itemInCart ? itemInCart.quantity : 0;
-            const available = p.stock - currentQty;
-
-            return `
-                <div class="product-card">
-                    <small style="opacity: 0.6;">Disponibles: ${available}</small>
-                    <h3>${p.name}</h3>
-                    <p style="color:var(--accent)">$${p.price.toFixed(2)}</p>
-                    <button class="buy-btn" 
-                        onclick="addToCart(${p.id})" 
-                        ${available <= 0 ? 'disabled style="filter: grayscale(1); cursor: not-allowed;"' : ''}>
-                        ${available > 0 ? 'Añadir al Carrito' : 'Agotado'}
-                    </button>
-                </div>
-            `;
-        }).join('');
-    }
-
-    function addToCart(productId) {
-        const product = productsData.find(p => p.id === productId);
-        const itemInCart = cart.find(item => item.id === productId);
-
-        // Validación de Stock y Agrupación
-        if (itemInCart) {
-            if (itemInCart.quantity < product.stock) {
-                itemInCart.quantity++;
-            } else {
-                return; // Bloqueo de seguridad si se alcanza el stock
-            }
-        } else {
-            // Primer vez que se agrega: spread del producto + cantidad inicial
-            cart.push({ ...product, quantity: 1 });
+        async function init() {
+            try {
+                const res = await fetch('products.json');
+                const data = await res.json();
+                allProducts = data.products;
+                render();
+                updateUI();
+            } catch (e) { console.error("Error al cargar productos."); }
         }
 
-        // Ejecución de efectos visuales originales
-        ejecutarEfectosCompra();
-        sync();
-    }
-
-    function ejecutarEfectosCompra() {
-        const btn = document.getElementById('cart-button');
-        const audio = document.getElementById("ecomm-sound");
-        
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-        
-        btn.classList.add('shake-active');
-        setTimeout(() => btn.classList.remove('shake-active'), 400);
-    }
-
-    function removeItem(id) {
-        const itemIndex = cart.findIndex(i => i.id === id);
-        
-        if (itemIndex > -1) {
-            if (cart[itemIndex].quantity > 1) {
-                cart[itemIndex].quantity--;
-            } else {
-                // Elimina el elemento del array si la cantidad llega a 0
-                cart.splice(itemIndex, 1);
-            }
+        // Función para cambiar cantidad visible
+        function updateViewCount() {
+            displayLimit = parseInt(document.getElementById('view-count').value);
+            render();
+            document.getElementById('product-container').scrollTop = 0; // Reset scroll al cambiar vista
         }
-        sync();
-    }
 
-    function sync() {
-        localStorage.setItem('eliteCartItems', JSON.stringify(cart));
-        render(productsData); // Actualiza botones y etiquetas de stock
-        updateUI();
-    }
+        function render() {
+            const container = document.getElementById('product-container');
+            // Segmentación modular: tomamos solo una parte del array total
+            const visibleProducts = allProducts.slice(0, displayLimit);
 
-    function updateUI() {
-        // El contador del carrito ahora refleja la suma de todas las cantidades
-        const totalQty = cart.reduce((acc, item) => acc + item.quantity, 0);
-        document.getElementById('cart-count').innerText = totalQty;
-        
-        const list = document.getElementById('cart-items-list');
-        
-        list.innerHTML = cart.length === 0 ? '<p>El carrito está vacío</p>' : 
-            cart.map(item => `
-                <div class="cart-item">
-                    <div>
-                        <strong>${item.name}</strong> <span style="color:var(--accent)">x${item.quantity}</span><br>
-                        <small>$${(item.price * item.quantity).toFixed(2)}</small>
+            container.innerHTML = visibleProducts.map(p => {
+                const cartItem = cart.find(i => i.id === p.id);
+                const currentQty = cartItem ? cartItem.quantity : 0;
+                const available = p.stock - currentQty;
+
+                return `
+                    <div class="product-card">
+                        <small style="color:${available < 3 ? 'var(--accent)' : 'rgba(255,255,255,0.5)'}">
+                            Stock: ${available}
+                        </small>
+                        <h3>${p.name}</h3>
+                        <p style="color:var(--accent)">$${p.price.toFixed(2)}</p>
+                        <button class="buy-btn" 
+                            onclick="addToCart(${p.id})" 
+                            ${available <= 0 ? 'disabled style="opacity:0.5; cursor:not-allowed"' : ''}>
+                            ${available > 0 ? 'Añadir al Carrito' : 'Agotado'}
+                        </button>
                     </div>
-                    <button class="remove-btn" onclick="removeItem(${item.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+        }
 
-        const totalMoney = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-        document.getElementById('cart-total').innerText = `$${totalMoney.toFixed(2)}`;
-    }
+        function addToCart(id) {
+            const product = allProducts.find(p => p.id === id);
+            const cartItem = cart.find(item => item.id === id);
 
-    function toggleCart() {
-        document.getElementById('cart-modal').classList.toggle('active');
-        document.getElementById('overlay').style.display = 
-            document.getElementById('cart-modal').classList.contains('active') ? 'block' : 'none';
-    }
+            if (cartItem) {
+                if (cartItem.quantity < product.stock) {
+                    cartItem.quantity++;
+                } else { return; }
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
 
-    window.onload = init;
-</script>
+            // Animación y sonido
+            const btn = document.getElementById('cart-button');
+            const audio = document.getElementById("ecomm-sound");
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            btn.classList.add('shake-active');
+            setTimeout(() => btn.classList.remove('shake-active'), 400);
+
+            sync();
+        }
+
+        function removeItem(id) {
+            const index = cart.findIndex(i => i.id === id);
+            if (index > -1) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                } else {
+                    cart.splice(index, 1);
+                }
+            }
+            sync();
+        }
+
+        function sync() {
+            localStorage.setItem('eliteCartItems', JSON.stringify(cart));
+            render();
+            updateUI();
+        }
+
+        function updateUI() {
+            const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+            document.getElementById('cart-count').innerText = totalItems;
+            
+            const list = document.getElementById('cart-items-list');
+            list.innerHTML = cart.length === 0 ? '<p>Vacío</p>' : 
+                cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong> x${item.quantity}<br>
+                            <small>$${(item.price * item.quantity).toFixed(2)}</small>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(${item.id})">
+                            <i class="fas fa-minus-circle"></i>
+                        </button>
+                    </div>
+                `).join('');
+
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('active');
+            document.getElementById('overlay').style.display = 
+                document.getElementById('cart-modal').classList.contains('active') ? 'block' : 'none';
+        }
+
+        window.onload = init;
+    </script>
 </body>
 </html>
