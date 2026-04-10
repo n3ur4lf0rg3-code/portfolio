@@ -40,23 +40,39 @@
             border-radius: 10px; 
         }
 
-        /* --- SELECTOR DE PAGINACIÓN --- */
+        /* --- SELECTOR DE PAGINACIÓN CORREGIDO --- */
         .pagination-bar {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding: 0 20px;
-            gap: 10px;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
         }
-
+        
         .pagination-bar select {
-            background: var(--glass);
+            background: #1e293b; /* Fondo sólido oscuro para asegurar visibilidad */
             color: var(--text);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
             border-radius: 8px;
             outline: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .pagination-bar select:hover {
+            border-color: var(--primary);
+        }
+        
+        /* Forzar color de fondo y texto en las opciones desplegables */
+        .pagination-bar select option {
+            background-color: #0f172a; /* Color de fondo oscuro */
+            color: #ffffff;            /* Texto blanco */
+            padding: 10px;
         }
 
         .cart-trigger {
@@ -111,12 +127,12 @@
     <div class="container">
         <!-- Barra de control modular -->
         <div class="pagination-bar">
-            <label for="view-count">Mostrar:</label>
+            <span>Mostrar artículos:</span>
             <select id="view-count" onchange="updateViewCount()">
                 <option value="5">5 productos</option>
                 <option value="10" selected>10 productos</option>
                 <option value="50">50 productos</option>
-                <option value="100">Ver todos</option>
+                <option value="100">Ver todos (100)</option>
             </select>
         </div>
 
