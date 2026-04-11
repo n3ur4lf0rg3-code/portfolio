@@ -1,13 +1,13 @@
 from flask import Flask, jsonify
 import os
-import psycopg2
+import psycopg
 
 app = Flask(__name__)
 
 init_db()
 
 def get_connection():
-    return psycopg2.connect(os.environ["DATABASE_URL"])
+    return psycopg.connect(os.environ["DATABASE_URL"])
 
 @app.route("/")
 def home():
