@@ -7,24 +7,92 @@ app = Flask(__name__)
 def get_connection():
     return psycopg.connect(os.environ["DATABASE_URL"])
 
-@app.route("/")
-def home():
-    return {"status": "API running"}
-
-@app.route("/api/services")
+@app.route("/api/services", methods=["GET"])
 def get_services():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("SELECT name, status FROM services;")
+    cur.execute("SELECT id, name, status FROM services;")
     rows = cur.fetchall()
 
     cur.close()
     conn.close()
 
     return jsonify([
-        {"name": r[0], "status": r[1]} for r in rows
+        {"id": r[0], "name": r[1], "status": r[2]} for r in rows
     ])
+
+
+@app.route("/api/services/<int:id>", methods=["GET"])
+def get_service(id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, name, status FROM services WHERE id = %s;", (id,))
+    row = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    if not row:
+        return {"error": "Not found"}, 404
+
+    return {"id": row[0], "name": row[1], "status": row[2]}
+
+
+@app.route("/api/services", methods=["POST"])
+def create_service():
+    data = request.json
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "INSERT INTO services (name, status) VALUES (%s, %s) RETURNING id;",
+        (data["name"], data["status"])
+    )
+
+    new_id = cur.fetchone()[0]
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return {"id": new_id, "name": data["name"], "status": data["status"]}, 201
+
+
+@app.route("/api/services/<int:id>", methods=["PUT"])
+def update_service(id):
+    data = request.json
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute(
+        "UPDATE services SET name = %s, status = %s WHERE id = %s;",
+        (data["name"], data["status"], id)
+    )
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return {"message": "updated"}
+
+
+@app.route("/api/services/<int:id>", methods=["DELETE"])
+def delete_service(id):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM services WHERE id = %s;", (id,))
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return {"message": "deleted"}
     
 def init_db():
     conn = get_connection()
