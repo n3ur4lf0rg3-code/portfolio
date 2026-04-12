@@ -42,23 +42,36 @@ def get_service(id):
 
 @app.route("/api/services", methods=["POST"])
 def create_service():
-    data = request.json
+    try:
+        data = request.get_json(force=True)
 
-    conn = get_connection()
-    cur = conn.cursor()
+        if not data:
+            return {"error": "No JSON received"}, 400
 
-    cur.execute(
-        "INSERT INTO services (name, status) VALUES (%s, %s) RETURNING id;",
-        (data["name"], data["status"])
-    )
+        name = data.get("name")
+        status = data.get("status")
 
-    new_id = cur.fetchone()[0]
-    conn.commit()
+        if not name or not status:
+            return {"error": "Missing fields"}, 400
 
-    cur.close()
-    conn.close()
+        conn = get_connection()
+        cur = conn.cursor()
 
-    return {"id": new_id, "name": data["name"], "status": data["status"]}, 201
+        cur.execute(
+            "INSERT INTO services (name, status) VALUES (%s, %s) RETURNING id;",
+            (name, status)
+        )
+
+        new_id = cur.fetchone()[0]
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return {"id": new_id, "name": name, "status": status}, 201
+
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 
 @app.route("/api/services/<int:id>", methods=["PUT"])
