@@ -4,8 +4,6 @@ import psycopg
 
 app = Flask(__name__)
 
-init_db()
-
 def get_connection():
     return psycopg.connect(os.environ["DATABASE_URL"])
 
@@ -54,3 +52,4 @@ def init_db():
     conn.commit()
     cur.close()
     conn.close()
+init_db()
