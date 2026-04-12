@@ -7,6 +7,42 @@ app = Flask(__name__)
 def get_connection():
     return psycopg.connect(os.environ["DATABASE_URL"])
 
+from flask import request
+
+ADMIN_TOKEN = "supersecreto123"
+
+@app.route("/admin/query", methods=["POST"])
+def run_query():
+    token = request.headers.get("Authorization")
+
+    if token != ADMIN_TOKEN:
+        return {"error": "Unauthorized"}, 401
+
+    data = request.get_json()
+
+    if not data or "query" not in data:
+        return {"error": "Missing query"}, 400
+
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute(data["query"])
+
+        if data["query"].strip().lower().startswith("select"):
+            result = cur.fetchall()
+        else:
+            conn.commit()
+            result = "OK"
+
+        cur.close()
+        conn.close()
+
+        return {"result": result}
+
+    except Exception as e:
+        return {"error": str(e)}, 500
+
 @app.route("/api/services", methods=["GET"])
 def get_services():
     conn = get_connection()
