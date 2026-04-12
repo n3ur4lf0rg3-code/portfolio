@@ -61,7 +61,7 @@ def run_query():
         return {"result": result}
 
     except Exception as e:
-        return {"error": "Internal error"}, 500
+        return {"error": str(e)}, 500
 
 @app.route("/api/services", methods=["GET"])
 def get_services():
