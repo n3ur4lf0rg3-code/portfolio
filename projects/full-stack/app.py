@@ -9,31 +9,51 @@ def get_connection():
 
 from flask import request
 
-ADMIN_TOKEN = "supersecreto123"
+ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN")
+
+# Rate limit simple en memoria
+LAST_REQUEST = {}
 
 @app.route("/admin/query", methods=["POST"])
 def run_query():
-    token = request.headers.get("Authorization")
-
-    if token != ADMIN_TOKEN:
-        return {"error": "Unauthorized"}, 401
-
-    data = request.get_json()
-
-    if not data or "query" not in data:
-        return {"error": "Missing query"}, 400
-
     try:
+        # 🔐 AUTH
+        token = request.headers.get("Authorization")
+        if token != ADMIN_TOKEN:
+            return {"error": "Unauthorized"}, 401
+
+        # ⏱ RATE LIMIT (1 req cada 2 segundos por IP)
+        client_ip = request.remote_addr
+        now = time.time()
+
+        if client_ip in LAST_REQUEST:
+            if now - LAST_REQUEST[client_ip] < 2:
+                return {"error": "Too many requests"}, 429
+
+        LAST_REQUEST[client_ip] = now
+
+        # 📥 INPUT
+        data = request.get_json()
+        if not data or "query" not in data:
+            return {"error": "Missing query"}, 400
+
+        query = data["query"].strip().lower()
+
+        # 🚫 BLOQUEAR TODO MENOS SELECT
+        if not query.startswith("select"):
+            return {"error": "Only SELECT allowed"}, 403
+
+        # 🚫 BLOQUEAR palabras peligrosas
+        forbidden = ["drop", "delete", "update", "insert", "alter"]
+        if any(word in query for word in forbidden):
+            return {"error": "Forbidden operation"}, 403
+
+        # 🗄️ EJECUCIÓN
         conn = get_connection()
         cur = conn.cursor()
 
         cur.execute(data["query"])
-
-        if data["query"].strip().lower().startswith("select"):
-            result = cur.fetchall()
-        else:
-            conn.commit()
-            result = "OK"
+        result = cur.fetchall()
 
         cur.close()
         conn.close()
@@ -41,7 +61,7 @@ def run_query():
         return {"result": result}
 
     except Exception as e:
-        return {"error": str(e)}, 500
+        return {"error": "Internal error"}, 500
 
 @app.route("/api/services", methods=["GET"])
 def get_services():
