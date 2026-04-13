@@ -74,19 +74,31 @@ def run_query():
 
 @app.route("/api/services", methods=["GET"])
 def get_services():
-    conn = get_connection()
-    cur = conn.cursor()
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
 
-    cur.execute("SELECT id, name, status FROM services;")
-    rows = cur.fetchall()
+        cur.execute("SELECT id, name, status FROM services;")
+        rows = cur.fetchall()
 
-    cur.close()
-    conn.close()
+        data = []
+        for row in rows:
+            data.append({
+                "id": row[0],
+                "name": row[1],
+                "status": row[2]
+            })
 
-    return jsonify([
-        {"id": r[0], "name": r[1], "status": r[2]} for r in rows
-    ])
+        return {
+            "status": "success",
+            "data": data
+        }, 200
 
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
 
 @app.route("/api/services/<int:id>", methods=["GET"])
 def get_service(id):
