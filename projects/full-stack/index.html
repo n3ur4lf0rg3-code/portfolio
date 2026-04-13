@@ -2,104 +2,170 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Contacts Live</title>
+<title>Full Stack Live</title>
 
 <style>
 body {
     font-family: Arial;
     background: #0f172a;
     color: #e2e8f0;
-    padding: 20px;
+    margin: 0;
 }
 
-h1 {
+section {
+    padding: 40px;
+}
+
+h1, h2 {
     margin-bottom: 20px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.card {
     background: #1e293b;
+    padding: 20px;
+    margin-bottom: 10px;
 }
 
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #334155;
+input, textarea, button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
-th {
-    background: #020617;
+button {
+    background: #22c55e;
+    border: none;
+    color: black;
+    cursor: pointer;
 }
 
-tr:hover {
-    background: #334155;
+.status {
+    margin-top: 10px;
 }
 
-#error {
-    color: #f87171;
-}
+.error { color: #f87171; }
+.success { color: #4ade80; }
+.loading { color: #facc15; }
 </style>
-
 </head>
+
 <body>
 
-<h1>Contacts (Live API)</h1>
+<!-- HERO -->
+<section>
+    <h1>Plataforma Full Stack (Live)</h1>
+    <p>Datos consumidos desde API real</p>
+</section>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Message</th>
-        </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-</table>
+<!-- SERVICIOS -->
+<section>
+    <h2>Servicios</h2>
+    <div id="services"></div>
+    <p id="servicesStatus" class="status"></p>
+</section>
 
-<p id="error"></p>
+<!-- CONTACTO -->
+<section>
+    <h2>Contacto</h2>
+
+    <form id="contactForm">
+        <input type="text" id="name" placeholder="Nombre" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <textarea id="message" placeholder="Mensaje" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <p id="formStatus" class="status"></p>
+</section>
 
 <script>
-const API_URL = "https://portfolio-w7vi.onrender.com/api/contact";
+const API_BASE = "https://portfolio-w7vi.onrender.com";
 
-async function load() {
+// ==========================
+// SERVICIOS (GET REAL)
+// ==========================
+async function loadServices() {
+    const status = document.getElementById("servicesStatus");
+    const container = document.getElementById("services");
+
+    status.textContent = "Loading...";
+    status.className = "status loading";
+
     try {
-        const res = await fetch(API_URL);
+        const res = await fetch(`${API_BASE}/api/services`);
         const json = await res.json();
 
-        console.log("API:", json);
+        console.log("SERVICES:", json);
 
         if (json.status !== "success") {
-            throw new Error("API inválida");
+            throw new Error("Error en API servicios");
         }
 
-        render(json.data);
+        container.innerHTML = "";
 
+        json.data.forEach(s => {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `<strong>${escapeHTML(s.name)}</strong><p>${escapeHTML(s.description)}</p>`;
+            container.appendChild(div);
+        });
+
+        status.textContent = "";
     } catch (e) {
-        document.getElementById("error").textContent = e.message;
-        console.error(e);
+        status.textContent = e.message;
+        status.className = "status error";
     }
 }
 
-function render(data) {
-    const tbody = document.getElementById("tbody");
-    tbody.innerHTML = "";
+// ==========================
+// CONTACTO (POST REAL)
+// ==========================
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    data.forEach(c => {
-        const tr = document.createElement("tr");
+    const status = document.getElementById("formStatus");
 
-        tr.innerHTML = `
-            <td>${escapeHTML(c.id)}</td>
-            <td>${escapeHTML(c.name)}</td>
-            <td>${escapeHTML(c.email)}</td>
-            <td>${escapeHTML(c.message)}</td>
-        `;
+    const payload = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+    };
 
-        tbody.appendChild(tr);
-    });
-}
+    status.textContent = "Enviando...";
+    status.className = "status loading";
 
-// 🔐 Protección básica XSS (faltaba antes)
+    try {
+        const res = await fetch(`${API_BASE}/api/contact`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        console.log("POST RESPONSE:", json);
+
+        if (json.status !== "success") {
+            throw new Error(json.message || "Error en envío");
+        }
+
+        status.textContent = "Mensaje enviado correctamente";
+        status.className = "status success";
+
+        e.target.reset();
+
+    } catch (err) {
+        status.textContent = err.message;
+        status.className = "status error";
+    }
+});
+
+// ==========================
+// SEGURIDAD BÁSICA
+// ==========================
 function escapeHTML(str) {
     return String(str)
         .replace(/&/g, "&amp;")
@@ -107,7 +173,8 @@ function escapeHTML(str) {
         .replace(/>/g, "&gt;");
 }
 
-load();
+// INIT
+loadServices();
 </script>
 
 </body>
