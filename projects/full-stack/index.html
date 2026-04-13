@@ -2,49 +2,50 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Contact Viewer</title>
+<title>Contacts Live</title>
+
 <style>
-    body {
-        font-family: Arial;
-        background: #0f172a;
-        color: #e2e8f0;
-        padding: 20px;
-    }
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 20px;
+}
 
-    h1 {
-        margin-bottom: 20px;
-    }
+h1 {
+    margin-bottom: 20px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #1e293b;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e293b;
+}
 
-    th, td {
-        padding: 12px;
-        border-bottom: 1px solid #334155;
-        text-align: left;
-    }
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #334155;
+}
 
-    th {
-        background: #020617;
-    }
+th {
+    background: #020617;
+}
 
-    tr:hover {
-        background: #334155;
-    }
+tr:hover {
+    background: #334155;
+}
 
-    .error {
-        color: #f87171;
-    }
+#error {
+    color: #f87171;
+}
 </style>
+
 </head>
 <body>
 
-<h1>Contact Data (Live)</h1>
+<h1>Contacts (Live API)</h1>
 
-<table id="contactTable">
+<table>
     <thead>
         <tr>
             <th>ID</th>
@@ -53,52 +54,60 @@
             <th>Message</th>
         </tr>
     </thead>
-    <tbody></tbody>
+    <tbody id="tbody"></tbody>
 </table>
 
-<p id="error" class="error"></p>
+<p id="error"></p>
 
 <script>
-const API_URL = "https://portfolio-w7vi.onrender.com/api/contact"; // ← CAMBIAR
+const API_URL = "https://portfolio-w7vi.onrender.com/api/contact";
 
-async function loadContacts() {
+async function load() {
     try {
-        const response = await fetch(API_URL);
-        const result = await response.json();
+        const res = await fetch(API_URL);
+        const json = await res.json();
 
-        console.log("API Response:", result);
+        console.log("API:", json);
 
-        if (result.status !== "success") {
-            throw new Error("API error");
+        if (json.status !== "success") {
+            throw new Error("API inválida");
         }
 
-        renderTable(result.data);
+        render(json.data);
 
-    } catch (err) {
-        document.getElementById("error").textContent = err.message;
-        console.error(err);
+    } catch (e) {
+        document.getElementById("error").textContent = e.message;
+        console.error(e);
     }
 }
 
-function renderTable(data) {
-    const tbody = document.querySelector("#contactTable tbody");
+function render(data) {
+    const tbody = document.getElementById("tbody");
     tbody.innerHTML = "";
 
-    data.forEach(item => {
-        const row = document.createElement("tr");
+    data.forEach(c => {
+        const tr = document.createElement("tr");
 
-        row.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.name}</td>
-            <td>${item.email}</td>
-            <td>${item.message}</td>
+        tr.innerHTML = `
+            <td>${escapeHTML(c.id)}</td>
+            <td>${escapeHTML(c.name)}</td>
+            <td>${escapeHTML(c.email)}</td>
+            <td>${escapeHTML(c.message)}</td>
         `;
 
-        tbody.appendChild(row);
+        tbody.appendChild(tr);
     });
 }
 
-loadContacts();
+// 🔐 Protección básica XSS (faltaba antes)
+function escapeHTML(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+load();
 </script>
 
 </body>
