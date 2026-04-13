@@ -190,4 +190,65 @@ def init_db():
     conn.commit()
     cur.close()
     conn.close()
+
+@app.route("/api/contact", methods=["POST"])
+def contact():
+    try:
+        data = request.get_json(force=True)
+
+        # 🔐 VALIDACIÓN
+        name = data.get("name", "").strip()
+        email = data.get("email", "").strip()
+        message = data.get("message", "").strip()
+
+        if not name or not message:
+            return {
+                "status": "error",
+                "message": "Name and message required"
+            }, 400
+
+        if "@" not in email or "." not in email:
+            return {
+                "status": "error",
+                "message": "Invalid email"
+            }, 400
+
+        # 🗄️ DB INSERT
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS contact (
+                id SERIAL PRIMARY KEY,
+                name TEXT,
+                email TEXT,
+                message TEXT
+            );
+        """)
+
+        cur.execute(
+            "INSERT INTO contact (name, email, message) VALUES (%s, %s, %s) RETURNING id;",
+            (name, email, message)
+        )
+
+        new_id = cur.fetchone()[0]
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return {
+            "status": "success",
+            "data": {
+                "id": new_id,
+                "name": name,
+                "email": email,
+                "message": message
+            },
+            "message": "Contact stored"
+        }, 201
+
+    except Exception as e:
+        return {"error": str(e)}, 500
+
 init_db()
