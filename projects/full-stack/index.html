@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Contact Viewer</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #1e293b;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #334155;
+        text-align: left;
+    }
+
+    th {
+        background: #020617;
+    }
+
+    tr:hover {
+        background: #334155;
+    }
+
+    .error {
+        color: #f87171;
+    }
+</style>
+</head>
+<body>
+
+<h1>Contact Data (Live)</h1>
+
+<table id="contactTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<p id="error" class="error"></p>
+
+<script>
+const API_URL = "https://TU_BACKEND/api/contact"; // ← CAMBIAR
+
+async function loadContacts() {
+    try {
+        const response = await fetch(API_URL);
+        const result = await response.json();
+
+        console.log("API Response:", result);
+
+        if (result.status !== "success") {
+            throw new Error("API error");
+        }
+
+        renderTable(result.data);
+
+    } catch (err) {
+        document.getElementById("error").textContent = err.message;
+        console.error(err);
+    }
+}
+
+function renderTable(data) {
+    const tbody = document.querySelector("#contactTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(item => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.email}</td>
+            <td>${item.message}</td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+loadContacts();
+</script>
+
+</body>
+</html>
