@@ -1,9 +1,19 @@
+pip install flask-cors
+
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+
 import os
 import psycopg
 import time
 
 app = Flask(__name__)
+
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*"
+    }
+})
 
 def get_connection():
     return psycopg.connect(os.environ["DATABASE_URL"])
