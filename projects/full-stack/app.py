@@ -251,4 +251,29 @@ def contact():
     except Exception as e:
         return {"error": str(e)}, 500
 
+@app.route('/api/contact', methods=['GET'])
+def get_contacts():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT id, name, email, message FROM contacts")
+    rows = cursor.fetchall()
+
+    data = []
+    for row in rows:
+        data.append({
+            "id": row[0],
+            "name": row[1],
+            "email": row[2],
+            "message": row[3]
+        })
+
+    cursor.close()
+    conn.close()
+
+    return {
+        "status": "success",
+        "data": data
+    }, 200
+    
 init_db()
