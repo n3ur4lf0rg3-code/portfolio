@@ -104,11 +104,24 @@ async function loadServices() {
 
         container.innerHTML = "";
 
-        json.data.forEach(s => {
-            const div = document.createElement("div");
-            div.className = "card";
-            div.innerHTML = `<strong>${escapeHTML(s.name)}</strong><p>Status:${escapeHTML(s.status)}</p>`;
-            container.appendChild(div);
+      json.data.forEach(s => {
+        const div = document.createElement("div");
+        div.className = "card";
+    
+        let color = "#94a3b8"; // default
+    
+        if (s.status === "active") color = "#22c55e";
+        if (s.status === "pending") color = "#facc15";
+        if (s.status === "error") color = "#ef4444";
+    
+        div.innerHTML = `
+            <strong>${escapeHTML(s.name)}</strong>
+            <p style="color:${color}; font-weight:bold;">
+                ● ${escapeHTML(s.status).toUpperCase()}
+            </p>
+        `;
+    
+        container.appendChild(div);
         });
 
         status.textContent = "";
