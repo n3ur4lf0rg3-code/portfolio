@@ -191,32 +191,13 @@ def init_db():
     cur.close()
     conn.close()
 
-@app.route("/api/contact", methods=["POST"])
+@app.route("/api/contact", methods=["GET", "POST"])
 def contact():
     try:
-        data = request.get_json(force=True)
-
-        # 🔐 VALIDACIÓN
-        name = data.get("name", "").strip()
-        email = data.get("email", "").strip()
-        message = data.get("message", "").strip()
-
-        if not name or not message:
-            return {
-                "status": "error",
-                "message": "Name and message required"
-            }, 400
-
-        if "@" not in email or "." not in email:
-            return {
-                "status": "error",
-                "message": "Invalid email"
-            }, 400
-
-        # 🗄️ DB INSERT
         conn = get_connection()
         cur = conn.cursor()
 
+        # 🗄️ Garantizar tabla (se ejecuta una vez sin problema)
         cur.execute("""
             CREATE TABLE IF NOT EXISTS contact (
                 id SERIAL PRIMARY KEY,
@@ -226,54 +207,80 @@ def contact():
             );
         """)
 
-        cur.execute(
-            "INSERT INTO contact (name, email, message) VALUES (%s, %s, %s) RETURNING id;",
-            (name, email, message)
-        )
+        # =========================
+        # 📥 POST → INSERTAR
+        # =========================
+        if request.method == "POST":
+            data = request.get_json(force=True)
 
-        new_id = cur.fetchone()[0]
-        conn.commit()
+            name = data.get("name", "").strip()
+            email = data.get("email", "").strip()
+            message = data.get("message", "").strip()
 
-        cur.close()
-        conn.close()
+            # 🔐 VALIDACIÓN
+            if not name or not message:
+                return {
+                    "status": "error",
+                    "message": "Name and message required"
+                }, 400
 
-        return {
-            "status": "success",
-            "data": {
-                "id": new_id,
-                "name": name,
-                "email": email,
-                "message": message
-            },
-            "message": "Contact stored"
-        }, 201
+            if "@" not in email or "." not in email:
+                return {
+                    "status": "error",
+                    "message": "Invalid email"
+                }, 400
+
+            cur.execute(
+                "INSERT INTO contact (name, email, message) VALUES (%s, %s, %s) RETURNING id;",
+                (name, email, message)
+            )
+
+            new_id = cur.fetchone()[0]
+            conn.commit()
+
+            return {
+                "status": "success",
+                "data": {
+                    "id": new_id,
+                    "name": name,
+                    "email": email,
+                    "message": message
+                },
+                "message": "Contact stored"
+            }, 201
+
+        # =========================
+        # 📤 GET → LISTAR
+        # =========================
+        else:
+            cur.execute("SELECT id, name, email, message FROM contact ORDER BY id DESC;")
+            rows = cur.fetchall()
+
+            data = []
+            for row in rows:
+                data.append({
+                    "id": row[0],
+                    "name": row[1],
+                    "email": row[2],
+                    "message": row[3]
+                })
+
+            return {
+                "status": "success",
+                "data": data
+            }, 200
 
     except Exception as e:
-        return {"error": str(e)}, 500
+        return {
+            "status": "error",
+            "message": str(e)
+        }, 500
 
-@app.route('/api/contact', methods=['GET'])
-def get_contacts():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT id, name, email, message FROM contacts")
-    rows = cursor.fetchall()
-
-    data = []
-    for row in rows:
-        data.append({
-            "id": row[0],
-            "name": row[1],
-            "email": row[2],
-            "message": row[3]
-        })
-
-    cursor.close()
-    conn.close()
-
-    return {
-        "status": "success",
-        "data": data
-    }, 200
+    finally:
+        try:
+            cur.close()
+            conn.close()
+        except:
+            pass
     
 init_db()
