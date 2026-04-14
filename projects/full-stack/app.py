@@ -216,7 +216,15 @@ def contact():
     try:
         conn = get_connection()
         cur = conn.cursor()
-
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS contact (
+                id SERIAL PRIMARY KEY,
+                name TEXT,
+                email TEXT,
+                message TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
         # 🗄️ Garantizar tabla (se ejecuta una vez sin problema)
         cur.execute("""
             CREATE TABLE IF NOT EXISTS contact (
