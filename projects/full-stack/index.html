@@ -18,11 +18,6 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap: 16px;
 }
 
-<section>
-<h2>Contactos</h2>
-<div id="contacts"></div>
-</section>
-    
 section {
     padding: 40px;
 }
@@ -79,6 +74,11 @@ button {
     <p id="servicesStatus" class="status"></p>
 </section>
 
+<section>
+    <h2>Contactos</h2>
+    <div id="contacts"></div>
+</section>
+    
 <!-- CONTACTO -->
 <section>
     <h2>Contacto</h2>
@@ -218,22 +218,18 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
 
         const json = await res.json();
 
-        console.log("POST RESPONSE:", json);
-
         if (json.status !== "success") {
             throw new Error(json.message || "Error en envío");
         }
 
+        // ✔ ÉXITO
         status.textContent = "Mensaje enviado correctamente";
         status.className = "status success";
-        
-        e.target.reset();
-        
-        // 🔥 REFRESH AUTOMÁTICO
-        await loadContacts(); // si tienes tabla de contactos
-        await loadServices(); // opcional si impacta servicios
 
         e.target.reset();
+
+        // 🔥 EXACTAMENTE AQUÍ
+        await loadContacts();
 
     } catch (err) {
         status.textContent = err.message;
