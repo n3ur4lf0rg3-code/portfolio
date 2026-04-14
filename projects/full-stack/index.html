@@ -18,6 +18,11 @@ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap: 16px;
 }
 
+#contacts {
+display: grid;
+gap: 12px;
+}
+    
 section {
     padding: 40px;
 }
@@ -109,18 +114,24 @@ async function loadContacts() {
 
         container.innerHTML = "";
 
-        json.data.forEach(c => {
+        json.data
+        .sort((a, b) => b.id - a.id)
+        .forEach((c, index) => {
             const div = document.createElement("div");
             div.className = "card";
-
+        
+            if (index === 0) {
+                div.style.border = "2px solid #22c55e";
+            }
+        
             div.innerHTML = `
                 <strong>${escapeHTML(c.name)}</strong>
                 <p>${escapeHTML(c.email)}</p>
                 <p>${escapeHTML(c.message)}</p>
             `;
 
-            container.appendChild(div);
-        });
+    container.appendChild(div);
+});
 
     } catch (e) {
         container.innerHTML = `<p class="error">${e.message}</p>`;
@@ -223,7 +234,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
         }
 
         // ✔ ÉXITO
-        status.textContent = "Mensaje enviado correctamente";
+        status.textContent = "✔ Mensaje enviado y actualizado";
         status.className = "status success";
 
         e.target.reset();
