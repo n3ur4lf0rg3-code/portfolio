@@ -17,6 +17,11 @@ display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 gap: 16px;
 }
+
+<section>
+<h2>Contactos</h2>
+<div id="contacts"></div>
+</section>
     
 section {
     padding: 40px;
@@ -91,6 +96,37 @@ button {
 <script>
 const API_BASE = "https://portfolio-w7vi.onrender.com";
 
+async function loadContacts() {
+    const container = document.getElementById("contacts");
+
+    try {
+        const res = await fetch(`${API_BASE}/api/contact`);
+        const json = await res.json();
+
+        if (json.status !== "success") {
+            throw new Error("Error cargando contactos");
+        }
+
+        container.innerHTML = "";
+
+        json.data.forEach(c => {
+            const div = document.createElement("div");
+            div.className = "card";
+
+            div.innerHTML = `
+                <strong>${escapeHTML(c.name)}</strong>
+                <p>${escapeHTML(c.email)}</p>
+                <p>${escapeHTML(c.message)}</p>
+            `;
+
+            container.appendChild(div);
+        });
+
+    } catch (e) {
+        container.innerHTML = `<p class="error">${e.message}</p>`;
+    }
+}
+    
 // ==========================
 // CONFIGURACIÓN DE ESTADOS
 // ==========================
@@ -190,6 +226,12 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
 
         status.textContent = "Mensaje enviado correctamente";
         status.className = "status success";
+        
+        e.target.reset();
+        
+        // 🔥 REFRESH AUTOMÁTICO
+        await loadContacts(); // si tienes tabla de contactos
+        await loadServices(); // opcional si impacta servicios
 
         e.target.reset();
 
@@ -211,6 +253,7 @@ function escapeHTML(str) {
 
 // INIT
 loadServices();
+loadContacts();
 </script>
 
 </body>
