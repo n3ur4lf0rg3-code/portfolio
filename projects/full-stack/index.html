@@ -124,11 +124,14 @@ async function loadContacts() {
                 div.style.border = "2px solid #22c55e";
             }
         
-            div.innerHTML = `
-                <strong>${escapeHTML(c.name)}</strong>
-                <p>${escapeHTML(c.email)}</p>
-                <p>${escapeHTML(c.message)}</p>
-            `;
+          div.innerHTML = `
+            <strong>${escapeHTML(c.name)}</strong>
+            <p style="font-size:12px; color:#94a3b8;">
+                ${new Date().toLocaleTimeString()}
+            </p>
+            <p>${escapeHTML(c.email)}</p>
+            <p>${escapeHTML(c.message)}</p>
+        `;
 
     container.appendChild(div);
 });
@@ -214,7 +217,18 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
         email: document.getElementById("email").value,
         message: document.getElementById("message").value
     };
+    
+    if (
+        lastSent &&
+        lastSent.email === payload.email &&
+        lastSent.message === payload.message
+    ) {
+        status.textContent = "Mensaje duplicado";
+        status.className = "status error";
+        return;
+    }
 
+lastSent = payload;
     status.textContent = "Enviando...";
     status.className = "status loading";
 
