@@ -19,8 +19,49 @@ gap: 16px;
 }
 
 #contacts {
-display: grid;
-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.contact-card {
+    background: #1e293b;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.contact-time {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.contact-email {
+    font-size: 13px;
+    color: #cbd5f5;
+}
+
+.contact-message {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.highlight {
+    border: 2px solid #22c55e;
 }
     
 section {
@@ -117,24 +158,33 @@ async function loadContacts() {
         json.data
         .sort((a, b) => b.id - a.id)
         .forEach((c, index) => {
-            const div = document.createElement("div");
-            div.className = "card";
-        
-            if (index === 0) {
-                div.style.border = "2px solid #22c55e";
-            }
-        
-          div.innerHTML = `
-            <strong>${escapeHTML(c.name)}</strong>
-            <p style="font-size:12px; color:#94a3b8;">
-                ${new Date().toLocaleTimeString()}
-            </p>
-            <p>${escapeHTML(c.email)}</p>
-            <p>${escapeHTML(c.message)}</p>
-        `;
 
-    container.appendChild(div);
-});
+            const div = document.createElement("div");
+            div.className = "contact-card";
+
+            if (index === 0) {
+                div.classList.add("highlight");
+            }
+
+            const time = new Date().toLocaleTimeString();
+
+            div.innerHTML = `
+                <div class="contact-header">
+                    <span class="contact-name">${escapeHTML(c.name)}</span>
+                    <span class="contact-time">${time}</span>
+                </div>
+
+                <div class="contact-email">
+                    ${escapeHTML(c.email)}
+                </div>
+
+                <div class="contact-message">
+                    ${escapeHTML(c.message)}
+                </div>
+            `;
+
+            container.appendChild(div);
+        });
 
     } catch (e) {
         container.innerHTML = `<p class="error">${e.message}</p>`;
