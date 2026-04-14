@@ -12,6 +12,12 @@ body {
     margin: 0;
 }
 
+#services {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 16px;
+}
+    
 section {
     padding: 40px;
 }
@@ -21,9 +27,12 @@ h1, h2 {
 }
 
 .card {
-    background: #1e293b;
-    padding: 20px;
-    margin-bottom: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
 input, textarea, button {
@@ -83,12 +92,21 @@ button {
 const API_BASE = "https://portfolio-w7vi.onrender.com";
 
 // ==========================
+// CONFIGURACIÓN DE ESTADOS
+// ==========================
+const STATUS_CONFIG = {
+    active: { color: "#22c55e", label: "ACTIVE" },
+    pending: { color: "#facc15", label: "PENDING" },
+    error: { color: "#ef4444", label: "ERROR" }
+};
+    
+// ==========================
 // SERVICIOS (GET REAL)
 // ==========================
 async function loadServices() {
     const status = document.getElementById("servicesStatus");
     const container = document.getElementById("services");
-
+       
     status.textContent = "Loading...";
     status.className = "status loading";
 
@@ -114,10 +132,15 @@ async function loadServices() {
         if (s.status === "pending") color = "#facc15";
         if (s.status === "error") color = "#ef4444";
     
+        const cfg = STATUS_CONFIG[s.status] || {
+            color: "#94a3b8",
+            label: s.status.toUpperCase()
+        };
+        
         div.innerHTML = `
             <strong>${escapeHTML(s.name)}</strong>
-            <p style="color:${color}; font-weight:bold;">
-                ● ${escapeHTML(s.status).toUpperCase()}
+            <p style="color:${cfg.color}; font-weight:bold;">
+                ● ${cfg.label}
             </p>
         `;
     
