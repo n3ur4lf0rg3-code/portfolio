@@ -23,6 +23,12 @@ export const login = async (req, res) => {
     [email]
   );
 
+  const token = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "2h" }
+  );
+  
   const user = result.rows[0];
 
   const valid = await bcrypt.compare(password, user.password);
