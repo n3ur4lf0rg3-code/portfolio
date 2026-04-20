@@ -216,15 +216,36 @@ def contact():
     try:
         conn = get_connection()
         cur = conn.cursor()
+
         cur.execute("""
-            CREATE TABLE IF NOT EXISTS contact (
-                id SERIAL PRIMARY KEY,
-                name TEXT,
-                email TEXT,
-                message TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
+            SELECT id, name, email, message, created_at
+            FROM contact
+            ORDER BY id DESC;
         """)
+
+        rows = cur.fetchall()
+
+        data = []
+        for row in rows:
+            data.append({
+                "id": row[0],
+                "name": row[1],
+                "email": row[2],
+                "message": row[3],
+                "created_at": row[4].isoformat()  # 🔥 CLAVE
+            })
+
+        cur.close()
+        conn.close()
+
+        return {
+            "status": "success",
+            "data": data
+        }, 200
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 500
+        
         # 🗄️ Garantizar tabla (se ejecuta una vez sin problema)
         cur.execute("""
             CREATE TABLE IF NOT EXISTS contact (
