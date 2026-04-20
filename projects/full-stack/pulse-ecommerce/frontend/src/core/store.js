@@ -1,40 +1,34 @@
-const API_URL = "http://localhost:3000/api";
+import { createContext, useContext, useState } from "react";
 
-export const api = async (endpoint, method = "GET", body = null) => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8000);
+const Store = createContext();
 
-  const token = localStorage.getItem("token");
+export const StoreProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
 
-  try {
-    const response = await fetch(API_URL + endpoint, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: token }),
-      },
-      body: body ? JSON.stringify(body) : null,
-      signal: controller.signal,
+  const addToCart = (product) => {
+    setCart((prev) => {
+      const exists = prev.find((p) => p.id === product.id);
+      if (exists) {
+        return prev.map((p) =>
+          p.id === product.id
+            ? { ...p, quantity: (p.quantity || 1) + 1 }
+            : p
+        );
+      }
+      return [...prev, { ...product, quantity: 1 }];
     });
+  };
 
-    clearTimeout(timeout);
+  const total = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      throw {
-        status: response.status,
-        message: data.message || "API error",
-      };
-    }
-
-    return data;
-
-  } catch (error) {
-    if (error.name === "AbortError") {
-      throw { message: "Request timeout" };
-    }
-
-    throw error;
-  }
+  return (
+    <Store.Provider value={{ cart, addToCart, total }}>
+      {children}
+    </Store.Provider>
+  );
 };
+
+export const useStore = () => useContext(Store);
