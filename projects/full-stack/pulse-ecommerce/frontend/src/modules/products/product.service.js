@@ -1,9 +1,9 @@
 import { api } from "../../core/api";
 
 export const getProducts = async () => {
-  try {
-    return await api("/products");
-  } catch (err) {
-    throw new Error(err.message);
-  }
+  return await api("/products");
+};
+
+export const createProduct = async (product) => {
+  return await api("/products", "POST", product);
 };
