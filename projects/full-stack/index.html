@@ -140,6 +140,23 @@ button {
 </section>
 
 <script>
+const time = new Date(c.created_at).toLocaleString();
+
+div.innerHTML = `
+    <div class="contact-header">
+        <span class="contact-name">${escapeHTML(c.name)}</span>
+        <span class="contact-time">${time}</span>
+    </div>
+
+    <div class="contact-email">
+        ${escapeHTML(c.email)}
+    </div>
+
+    <div class="contact-message">
+        ${escapeHTML(c.message)}
+    </div>
+`;
+    
 const API_BASE = "https://portfolio-w7vi.onrender.com";
 
 async function loadContacts() {
