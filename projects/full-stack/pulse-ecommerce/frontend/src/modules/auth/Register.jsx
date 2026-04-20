@@ -6,13 +6,18 @@ export default function Register() {
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
-    await api("/auth/register", "POST", { email, password });
+    try {
+      await api("/auth/register", "POST", { email, password });
+      alert("User created");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
     <>
-      <input onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" onChange={(e) => setPassword(e.target.value)} />
+      <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+      <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
       <button onClick={handleRegister}>Register</button>
     </>
   );
