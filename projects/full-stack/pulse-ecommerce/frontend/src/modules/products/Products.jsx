@@ -1,24 +1,19 @@
 import { useEffect, useState } from "react";
-import { api } from "../../core/api";
-import { useStore } from "../../core/store";
+import { getProducts } from "./product.service";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const { addToCart } = useStore();
 
   useEffect(() => {
-    api("/products").then(setProducts);
+    getProducts()
+      .then(setProducts)
+      .catch((err) => console.error(err.message));
   }, []);
 
   return (
     <div>
       {products.map((p) => (
-        <div key={p.id}>
-          <img src={p.image} width="100" />
-          <h3>{p.name}</h3>
-          <p>{p.price}</p>
-          <button onClick={() => addToCart(p)}>Add</button>
-        </div>
+        <div key={p.id}>{p.name}</div>
       ))}
     </div>
   );
