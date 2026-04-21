@@ -5,3 +5,7 @@ pg
 bcrypt
 jsonwebtoken
 multer
+helmet
+express-rate-limit
+xss-clean
+hpp
