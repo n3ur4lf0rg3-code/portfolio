@@ -10,6 +10,9 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import xss from "xss-clean";
 import hpp from "hpp";
+import { logger } from "./src/middleware/logger.middleware.js";
+
+app.use(logger);
 
 // 🔒 Headers seguros
 app.use(helmet());
