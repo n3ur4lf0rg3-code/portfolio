@@ -5,6 +5,9 @@ import authRoutes from "./src/routes/auth.routes.js";
 import productRoutes from "./src/routes/product.routes.js";
 import orderRoutes from "./src/routes/order.routes.js";
 import { initDB } from "./src/config/init.db.js";
+import adminRoutes from "./src/routes/admin.routes.js";
+
+app.use("/api/admin", adminRoutes);
 
 // antes de app.listen
 await initDB();
