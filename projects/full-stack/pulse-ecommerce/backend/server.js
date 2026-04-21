@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 import authRoutes from "./src/routes/auth.routes.js";
 import productRoutes from "./src/routes/product.routes.js";
 import orderRoutes from "./src/routes/order.routes.js";
+import { initDB } from "./src/config/init.db.js";
+
+// antes de app.listen
+await initDB();
 
 dotenv.config();
 
