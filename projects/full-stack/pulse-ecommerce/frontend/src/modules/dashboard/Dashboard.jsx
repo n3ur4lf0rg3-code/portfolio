@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { getStats } from "./dashboard.service";
 import { listenDashboard } from "./dashboard.socket";
+import RevenueChart from "./RevenueChart";
+
+<RevenueChart />
 
 export default function Dashboard() {
   const [stats, setStats] = useState({ orders: 0, revenue: 0 });
