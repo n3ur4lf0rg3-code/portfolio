@@ -5,6 +5,12 @@ import Login from "./modules/auth/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminPanel from "./modules/admin/AdminPanel";
 import AdminRoute from "./components/AdminRoute";
+import Dashboard from "./modules/dashboard/Dashboard";
+import AdminRoute from "./components/AdminRoute";
+
+<AdminRoute>
+  <Dashboard />
+</AdminRoute>
 
 export default function App() {
   return (
