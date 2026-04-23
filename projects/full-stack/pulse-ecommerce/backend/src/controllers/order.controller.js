@@ -2,6 +2,11 @@ import { pool } from "../config/db.js";
 import { emitToCart } from "../socket/socket.js";
 import { emitGlobal } from "../socket/socket.js"; // NUEVO
 
+emitGlobal("chart_update", {
+  date: new Date(),
+  total,
+});
+
 emitGlobal("new_order", {
   total,
   createdAt: new Date(),
