@@ -5,3 +5,4 @@ pg
 bcrypt
 jsonwebtoken
 multer
+recharts
