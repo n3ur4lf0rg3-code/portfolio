@@ -11,6 +11,9 @@ import rateLimit from "express-rate-limit";
 import xss from "xss-clean";
 import hpp from "hpp";
 import { logger } from "./src/middleware/logger.middleware.js";
+import dashboardRoutes from "./src/routes/dashboard.routes.js";
+
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(logger);
 
